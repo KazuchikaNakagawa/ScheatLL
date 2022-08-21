@@ -1,0 +1,27 @@
+ScheatLL
+Scheatの中間言語。その語尾のごとく、LLVMへ接続する。
+Restrictedのサポート->どのように？
+namespaceを持たない→それ以前のことはScheatで解決
+
+namespace-> Scheat
+interface-> ScheatLL
+    ポインタをもち、アクセスなどをコントロールする。もちろん参照カウンタももつ。
+    APIからはあたかもクラスを一つ作っているように見せる。→実際には２つ作られている。
+property name-> Scheat
+    Scheatはプロパティに名前を持つが、ScheatLLは持たない。全て数字管理。
+
+Scheat Release Project
+
+Scheat beta1 with Scheatll beta1
+    Cの基本的な機能をstruct抜きで使える
+
+Scheat beta2 with Scheatll beta2
+    Cの全機能を使える
+
+Scheat beta3 with Scheatll beta3
+    クラスが使える
+    デフォルト引数を持てる
+
+Scheat beta4 with Scheatll beta4
+    Restrictedのサポート
+    
