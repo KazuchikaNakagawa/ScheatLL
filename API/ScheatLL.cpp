@@ -150,3 +150,21 @@ void scheatll::If(Expr *cond)
     EditingTarget->InsertIR(inst);
     EditingTarget->setInsertPoint(thenCodes);
 }
+
+void scheatll::IfElse(Expr *cond)
+{
+    if (cond == nullptr)
+    {
+        throw scheatll_expected_value_error();
+    }
+    if (cond->Type() != Type(Int1))
+    {
+        throw scheatll_expected_value_error();
+    }
+    auto thenCodes = new Codes("if");
+    auto elseCodes = new Codes("else");
+    auto inst = new IfElseExpr(cond, thenCodes, elseCodes);
+    EditingTarget->InsertIR(inst);
+    EditingTarget->setInsertPoint(elseCodes);
+    EditingTarget->setInsertPoint(thenCodes);
+}

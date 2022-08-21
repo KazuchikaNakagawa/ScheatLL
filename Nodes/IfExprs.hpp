@@ -34,6 +34,21 @@ public:
     ~IfExpr();
 };
 
+class IfElseExpr : public Expr
+{
+protected:
+    Expr *Condition;
+    Codes *Then;
+    Codes *Else;
+    llvm::Value *LLVMConvert() override;
+public:
+    IfElseExpr(Expr *, Codes *, Codes *);
+    std::string Decode() override;
+    scheatll_type* Type() override;
+    ~IfElseExpr();
+};
+
+
 } // namespace scheatll
 
 #endif // SCHEATIFEXPR_HPP

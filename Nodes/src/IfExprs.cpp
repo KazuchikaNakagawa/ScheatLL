@@ -57,3 +57,71 @@ llvm::Value *IfExpr::LLVMConvert()
     ScheatllLLVMConverter->Builder().SetInsertPoint(EndBlock);
     return nullptr;
 }
+
+IfElseExpr::IfElseExpr(Expr *c, Codes *t, Codes *e)
+{
+    Condition = c;
+    Then = t;
+    Else = e;
+}
+
+IfElseExpr::~IfElseExpr()
+{
+}
+
+scheatll_type *IfElseExpr::Type()
+{
+    return scheatll::Type(Void);
+}
+
+llvm::Value *IfElseExpr::LLVMConvert() 
+{
+    auto parent = ScheatllLLVMConverter->Builder().GetInsertBlock()->getParent();
+    auto bbt = llvm::BasicBlock::Create(
+        ScheatllLLVMConverter->Context(),
+        "then",
+        parent
+    );
+
+    auto bbe = llvm::BasicBlock::Create(
+        ScheatllLLVMConverter->Context(),
+        "else",
+        parent
+    );
+
+    auto EndBlock = llvm::BasicBlock::Create(
+        ScheatllLLVMConverter->Context(),
+        "finally",
+        parent
+    );
+    ScheatllLLVMConverter->Builder().CreateCondBr(Condition->LLVMEncode(), bbt, bbe);
+    ScheatllLLVMConverter->Builder().SetInsertPoint(bbt);
+    Then->ConvertAll();
+    ScheatllLLVMConverter->Builder().CreateBr(EndBlock);
+    ScheatllLLVMConverter->Builder().SetInsertPoint(bbe);
+    Else->ConvertAll();
+    ScheatllLLVMConverter->Builder().CreateBr(EndBlock);
+    ScheatllLLVMConverter->Builder().SetInsertPoint(EndBlock);
+    return nullptr;
+}
+
+std::string IfElseExpr::Decode() 
+{
+    std::string result = "if ";
+    result += Condition->Decode() + " {\n";
+    EditingTarget->IncreaseIndent();
+    for (auto &&inst : Then->getBuffer())
+    {
+        result += EditingTarget->getIndent() + inst->Decode() + "\n";
+    }
+    EditingTarget->DecreaseIndent();
+    result += EditingTarget->getIndent() + "}else{\n";
+    EditingTarget->IncreaseIndent();
+    for (auto &&inst : Then->getBuffer())
+    {
+        result += EditingTarget->getIndent() + inst->Decode() + "\n";
+    }
+    EditingTarget->DecreaseIndent();
+    result += EditingTarget->getIndent() + "}";
+    return result;
+}

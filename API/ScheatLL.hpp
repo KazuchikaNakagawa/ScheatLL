@@ -71,6 +71,9 @@ extern void End();
 // simple if-then.
 extern void If(Expr *);
 
+// if-then-else
+extern void IfElse(Expr *);
+
 // --defined
 // creates a attribute
 extern scheatll_attribute Attribute(ReadAttribute r = readable, WriteAttribute w = writable, AccessAttribute a = _internal);
