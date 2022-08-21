@@ -23,6 +23,7 @@ add_library(Scheatll STATIC
 ./Nodes/src/ReferenceExpr.cpp
 ./Nodes/src/ReturnExpr.cpp
 ./Nodes/src/IfExprs.cpp
+./Nodes/src/WhileExpr.cpp
 ./Type/ScheatLLPointerType.cpp
 ./Type/ScheatLLType.cpp
 ./Type/ScLLType.cpp

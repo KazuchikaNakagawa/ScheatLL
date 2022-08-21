@@ -19,11 +19,13 @@ int main() {
     Assign(ID("GlobalTestVar"), Constant(150));
     Assign(ID("testvar2"), Read(ID("GlobalTestVar")));
     Assign(ID("testbool"), Constant(true));
+    //While(Read(ID("testbool")));
     IfElse(Read(ID("testbool")));
         Assign(ID("GlobalTestVar"), Constant(11));
     End();
         Assign(ID("GlobalTestVar"), Constant(190));
     End();
+    //End();
     exec->ConvertToLLVMIR();
     exec->LLVMDump();
     printf("\n\n\n\n\n\n\n\n");

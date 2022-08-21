@@ -24,6 +24,11 @@ public:
     void EndEditing();
 
     operator Codes*() {
+        if (pointsStack.empty())
+        {
+            return nullptr;
+        }
+        
         return pointsStack.top();
     }
 

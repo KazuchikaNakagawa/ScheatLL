@@ -121,10 +121,10 @@ Term* scheatll::ID(std::string id)
     }
     
 
-    iter = EditingTarget->getInsertedPoint()->localVariables.find(id);
-    if (iter != EditingTarget->getInsertedPoint()->localVariables.end())
+    auto var = EditingTarget->getInsertedPoint()->findLocalVariable(id);
+    if (var != nullptr)
     {
-        return new ReferenceExpr(iter->second);
+        return new ReferenceExpr(var);
     }
     
     throw scheatll_name_not_exist_error();
@@ -167,4 +167,20 @@ void scheatll::IfElse(Expr *cond)
     EditingTarget->InsertIR(inst);
     EditingTarget->setInsertPoint(elseCodes);
     EditingTarget->setInsertPoint(thenCodes);
+}
+
+void scheatll::While(Expr *cond)
+{
+    if (cond == nullptr)
+    {
+        throw scheatll_expected_value_error();
+    }
+    if (cond->Type() != Type(Int1))
+    {
+        throw scheatll_expected_value_error();
+    }
+    auto bodyCodes = new Codes("while.body");
+    auto inst = new WhileExpr(cond, bodyCodes);
+    EditingTarget->InsertIR(inst);
+    EditingTarget->setInsertPoint(bodyCodes);
 }

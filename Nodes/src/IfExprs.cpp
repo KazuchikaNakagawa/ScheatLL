@@ -117,7 +117,7 @@ std::string IfElseExpr::Decode()
     EditingTarget->DecreaseIndent();
     result += EditingTarget->getIndent() + "}else{\n";
     EditingTarget->IncreaseIndent();
-    for (auto &&inst : Then->getBuffer())
+    for (auto &&inst : Else->getBuffer())
     {
         result += EditingTarget->getIndent() + inst->Decode() + "\n";
     }

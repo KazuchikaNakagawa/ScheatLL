@@ -16,6 +16,7 @@ class Codes
 private:
     std::string label;
     std::vector<Expr *> buf;
+    Codes *parent;
 public:
     Codes(std::string s);
 
@@ -40,6 +41,8 @@ public:
 
     // for some classes wants to access buf
     std::vector<Expr *>& getBuffer() { return buf; };
+
+    Expr *findLocalVariable(std::string);
 
     ~Codes();
 };

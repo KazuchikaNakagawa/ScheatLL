@@ -18,6 +18,13 @@ void Codes::ConvertAll()
 Codes::Codes(std::string s)
 {
     label = s;
+    if (EditingTarget == nullptr)
+    {
+        // if editing target is not edited, it is a initial scope, so parent will be null
+        parent = nullptr;
+    }else{
+        parent = EditingTarget->getInsertedPoint();
+    }
 }
 
 Codes::~Codes()
@@ -34,4 +41,26 @@ void Codes::Dump(){
     {
         std::cerr << EditingTarget->getIndent() << ((Expr *)ir)->Decode() << std::endl;
     }
+}
+
+Expr *Codes::findLocalVariable(std::string nm)
+{
+
+    if (parent != nullptr)
+    {
+        auto var = parent->findLocalVariable(nm);
+        if (var != nullptr)
+        {
+            return var;
+        }
+        
+    }
+    
+    auto iter = localVariables.find(nm);
+    if (iter == localVariables.end())
+    {
+        return nullptr;
+    }
+    return iter->second;
+    
 }

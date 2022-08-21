@@ -11,5 +11,6 @@
 #include "ReferenceExpr.hpp"
 #include "AssignExpr.hpp"
 #include "IfExprs.hpp"
+#include "WhileExpr.hpp"
 
 #endif // SCHEATLLNODES_HPP
