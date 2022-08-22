@@ -161,8 +161,8 @@ void scheatll::IfElse(Expr *cond)
     {
         throw scheatll_expected_value_error();
     }
-    auto thenCodes = new Codes("if");
-    auto elseCodes = new Codes("else");
+    auto thenCodes = new Codes("if", false);
+    auto elseCodes = new Codes("else", false);
     auto inst = new IfElseExpr(cond, thenCodes, elseCodes);
     EditingTarget->InsertIR(inst);
     EditingTarget->setInsertPoint(elseCodes);
@@ -179,8 +179,15 @@ void scheatll::While(Expr *cond)
     {
         throw scheatll_expected_value_error();
     }
-    auto bodyCodes = new Codes("while.body");
+    auto bodyCodes = new Codes("while.body", false);
     auto inst = new WhileExpr(cond, bodyCodes);
     EditingTarget->InsertIR(inst);
     EditingTarget->setInsertPoint(bodyCodes);
+}
+
+void scheatll::Return(Expr *val)
+{
+    EditingTarget->getInsertedPoint()->verifyReturn(val->Type());
+    auto inst = new ReturnExpr(val);
+    EditingTarget->InsertIR(inst);
 }

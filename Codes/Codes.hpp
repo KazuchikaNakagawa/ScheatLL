@@ -11,14 +11,26 @@ namespace scheatll
 // All scheatll code becomes Expr
 class Expr;
 
+class scheatll_type;
+
 class Codes
 {
 private:
     std::string label;
     std::vector<Expr *> buf;
     Codes *parent;
+    scheatll_type *expectedReturnType;
+    bool sureToExecute = true;
+    bool returnsValue = false;
 public:
+// simple scope, have a label name
     Codes(std::string s);
+
+    // codes that might not be executed.
+    Codes(std::string s, bool);
+
+    // function codes
+    Codes(std::string s, scheatll_type*);
 
     // ScheatはStringの形で名前を保管する。Namespaceもろもろを計算してScheatLL上の名前に変換するのが仕事。
     std::map<std::string, Expr*> localVariables;
@@ -43,6 +55,11 @@ public:
     std::vector<Expr *>& getBuffer() { return buf; };
 
     Expr *findLocalVariable(std::string);
+
+    // if this is true, it is sure to return value.
+    bool hasReturnValue() { return returnsValue; };
+
+    void verifyReturn(scheatll_type*);
 
     ~Codes();
 };

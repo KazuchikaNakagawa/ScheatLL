@@ -29,3 +29,8 @@ llvm::Value* ReturnExpr::LLVMConvert()
     ScheatllLLVMConverter->Builder().CreateRet(value->LLVMEncode());
     return nullptr;
 }
+
+std::string ReturnExpr::Decode()
+{
+    return "return " + value->Decode();
+}

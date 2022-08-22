@@ -30,7 +30,7 @@ DeclareFuncExpr::DeclareFuncExpr(
     {
         throw scheatll_attribute_error();
     }
-    body = new Codes(nm);
+    body = new Codes(nm, rtp);
 }
 
 DeclareFuncExpr::~DeclareFuncExpr()
@@ -38,6 +38,12 @@ DeclareFuncExpr::~DeclareFuncExpr()
 }
 
 llvm::Value* DeclareFuncExpr::LLVMConvert(){
+    if ((!body->hasReturnValue() 
+    && functionReturnType != scheatll::Type(Void)))
+    {
+        throw scheatll_return_error();
+    }
+    
     std::vector<llvm::Type *> ltps;
     for (auto &&i : functionArgsType)
     {

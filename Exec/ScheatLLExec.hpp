@@ -73,6 +73,8 @@ public:
     void IncreaseIndent() { IndentCount++; };
     void DecreaseIndent() { IndentCount--; };
 
+    void ExportObjectFile();
+
     ~ScheatLLExec();
 };
 

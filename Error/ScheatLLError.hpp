@@ -98,6 +98,16 @@ public:
     ~scheatll_type_error() {};
 };
 
+class scheatll_return_error : public scheatll_error
+{
+public:
+    scheatll_return_error() {};
+    virtual const char* what() const noexcept override {
+        return "function return type error";
+    }
+    ~scheatll_return_error() {};
+};
+
 } // namespace scheatll
 
 

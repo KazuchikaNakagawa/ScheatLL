@@ -36,11 +36,6 @@ std::string ScheatLLExec::getModuleName() {
 }
 
 void ScheatLLExec::ConvertToLLVMIR() {
-    llvm::InitializeAllTargetInfos();
-    llvm::InitializeAllTargets();
-    llvm::InitializeAllTargetMCs();
-    llvm::InitializeAllAsmParsers();
-    llvm::InitializeAllAsmPrinters();
 
     auto cvt = new LLVMConverter(this);
     globalScope->ConvertAll();
@@ -53,6 +48,56 @@ void ScheatLLExec::ConvertToLLVMIR() {
     // 理論上は、ここに全て集約されているはず？
     firstScope->LLVMEncode();
     exitScope->LLVMEncode();
+}
+
+void ScheatLLExec::ExportObjectFile()
+{
+    llvm::InitializeAllTargetInfos();
+    llvm::InitializeAllTargets();
+    llvm::InitializeAllTargetMCs();
+    llvm::InitializeAllAsmParsers();
+    llvm::InitializeAllAsmPrinters();
+    
+    auto TargetTriple = llvm::sys::getDefaultTargetTriple();
+    ScheatllLLVMConverter->Module()->setTargetTriple(TargetTriple);
+
+    std::string Error;
+    auto Target = llvm::TargetRegistry::lookupTarget(TargetTriple, Error);
+    if (!Target)
+    {
+        exit(9);
+        return;
+    }
+    
+    auto CPU = "generic";
+    auto Features = "";
+
+    llvm::TargetOptions opt;
+    auto RM = llvm::Optional<llvm::Reloc::Model>();
+    auto TheTargetMachine =
+    Target->createTargetMachine(TargetTriple, CPU, Features, opt, RM);
+
+    ScheatllLLVMConverter->Module()->setDataLayout(TheTargetMachine->createDataLayout());
+
+    auto Filename = this->ModuleName + ".o";
+    std::error_code EC;
+    llvm::raw_fd_ostream dest(Filename, EC, llvm::sys::fs::OF_None);
+
+    if (EC) {
+        llvm::errs() << "Could not open file: " << EC.message();
+        exit(9);
+    }
+
+    llvm::legacy::PassManager pass;
+    auto FileType = llvm::CGFT_ObjectFile;
+
+    if (TheTargetMachine->addPassesToEmitFile(pass, dest, nullptr, FileType)) {
+        llvm::errs() << "TheTargetMachine can't emit a file of this type";
+        exit(9);
+    }
+
+    pass.run(*ScheatllLLVMConverter->Module());
+    dest.flush();
 }
 
 void ScheatLLExec::InsertIR(Expr *ir) {

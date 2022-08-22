@@ -19,7 +19,7 @@ llvm::Value *AssignExpr::LLVMConvert()
 {
     auto llptr = pointer->LLVMEncode();
     auto llval = value->LLVMEncode();
-    return ScheatllLLVMConverter->Builder().CreateStore(llptr, llval);
+    return ScheatllLLVMConverter->Builder().CreateStore(llval, llptr);
 }
 
 std::string AssignExpr::Decode() {
