@@ -5,6 +5,7 @@
 #include "../Exec/ScheatLLExec.hpp"
 #include "../Attribute/ScLLAttribute.hpp"
 #include "../Type/ScLLType.hpp"
+#include "../Type/ScheatLLType.hpp"
 #include "../Nodes/BasicNodes.hpp"
 #include "../Codes/Codes.hpp"
 #include <string>

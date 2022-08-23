@@ -44,6 +44,8 @@ public:
 
     bool isPointerType() { return defType == Pointer; };
 
+    bool isFunctionType() { return defType == FunctionType; };
+
     std::map<std::string, scheatll_type*> funcTypeTable; 
 
     ~scheatll_type();

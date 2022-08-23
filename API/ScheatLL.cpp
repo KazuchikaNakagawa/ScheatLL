@@ -62,6 +62,7 @@ void scheatll::MakeFunction(
     inst->setArgNames(nms);
     EditingTarget->VerifyGlobalFunc(inst);
     EditingTarget->setInsertPoint(inst->body);
+    EditingTarget->globals[nm] = inst;
     return;
 }
 
@@ -87,6 +88,11 @@ Term* scheatll::Read(Expr* val)
     {
         throw scheatll_readability_error();
     }
+    if (val->Type()->isFunctionType())
+    {
+        throw scheatll_value_error();
+    }
+    
     if (!val->Type()->isPointerType())
     {
         // if tried to read non-pointer value, it must be a argument expression
@@ -190,4 +196,5 @@ void scheatll::Return(Expr *val)
     EditingTarget->getInsertedPoint()->verifyReturn(val->Type());
     auto inst = new ReturnExpr(val);
     EditingTarget->InsertIR(inst);
+    EditingTarget->getInsertedPoint()->Exit();
 }
