@@ -27,6 +27,11 @@ std::string GlobalAllocExpr::Decode() {
 }
 
 scheatll_type* GlobalAllocExpr::Type() {
+    if (variableType == nullptr)
+    {
+        return nullptr;
+    }
+    
     return variableType->getPointerTo();
 }
 
@@ -39,4 +44,9 @@ GlobalAllocExpr::GlobalAllocExpr(std::string s, scheatll_type* t, scheatll_attri
 
 GlobalAllocExpr::~GlobalAllocExpr()
 {
+}
+
+void GlobalAllocExpr::setType(scheatll_type *tp)
+{
+    variableType = tp;
 }

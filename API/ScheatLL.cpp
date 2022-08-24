@@ -4,6 +4,9 @@
 #include "../Codes/Codes.hpp"
 #include "../Error/ScheatLLError.hpp"
 #include "../Type/ScheatLLType.hpp"
+#include <iostream>
+#include <cstdlib>
+#include <typeinfo>
 
 
 using namespace scheatll;
@@ -104,6 +107,23 @@ Term* scheatll::Read(Expr* val)
 
 extern void scheatll::Assign(Expr *ptr, Expr *val)
 {
+    if (ptr->Type() == nullptr)
+    {
+        // type-undefined value
+        auto nptr1 = dynamic_cast<LocalAllocExpr*>(ptr);
+        if (nptr1 != nullptr)
+        {
+            nptr1->setType(val->Type());
+        }else{
+        auto nptr2 = dynamic_cast<GlobalAllocExpr*>(ptr);
+        if (nptr2 != nullptr)
+        {
+            nptr2->setType(val->Type());
+        }
+        
+        }
+    }
+    
     if (val->Type()->getPointerTo() != ptr->Type())
     {
         throw scheatll_type_error();

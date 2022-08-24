@@ -32,6 +32,8 @@ public:
         return attribute;
     }
 
+    void setType(scheatll_type*);
+
     ~GlobalAllocExpr();
 };
 

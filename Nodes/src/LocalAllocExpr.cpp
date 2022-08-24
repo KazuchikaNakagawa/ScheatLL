@@ -31,5 +31,15 @@ std::string LocalAllocExpr::Decode() {
 
 scheatll_type* LocalAllocExpr::Type()
 {
+    if (variableType == nullptr)
+    {
+        return nullptr;
+    }
+    
     return variableType->getPointerTo();
+}
+
+void LocalAllocExpr::setType(scheatll_type *tp)
+{
+    variableType = tp;
 }
