@@ -17,6 +17,7 @@ public:
     ReferenceExpr(Expr *);
     std::string Decode() override;
     scheatll_type* Type() override;
+    Expr* getSrc() { return src; };
     ~ReferenceExpr();
 };
 

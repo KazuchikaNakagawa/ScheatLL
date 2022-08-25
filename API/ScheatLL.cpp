@@ -109,13 +109,14 @@ extern void scheatll::Assign(Expr *ptr, Expr *val)
 {
     if (ptr->Type() == nullptr)
     {
+        auto _ptr = dynamic_cast<ReferenceExpr*>(ptr)->getSrc();
         // type-undefined value
-        auto nptr1 = dynamic_cast<LocalAllocExpr*>(ptr);
+        auto nptr1 = dynamic_cast<LocalAllocExpr*>(_ptr);
         if (nptr1 != nullptr)
         {
             nptr1->setType(val->Type());
         }else{
-        auto nptr2 = dynamic_cast<GlobalAllocExpr*>(ptr);
+        auto nptr2 = dynamic_cast<GlobalAllocExpr*>(_ptr);
         if (nptr2 != nullptr)
         {
             nptr2->setType(val->Type());
