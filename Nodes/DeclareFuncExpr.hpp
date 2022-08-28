@@ -34,7 +34,7 @@ private:
 protected:
     llvm::Value *LLVMConvert() override;
 public:
-    DeclareFuncExpr(std::string, scheatll_type*, std::vector<scheatll_type*>, scheatll_attribute);
+    DeclareFuncExpr(std::string, scheatll_type*, std::vector<scheatll_type*>, scheatll_attribute, scheat::SourceLocation);
     Codes *body;
 
     // if the argument vector's size doesn't adjust to the number of arguments,

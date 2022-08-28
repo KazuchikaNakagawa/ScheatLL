@@ -5,6 +5,7 @@ using namespace scheatll;
 
 
 ArgumentExpr::ArgumentExpr(DeclareFuncExpr *f,std::string nm, scheatll_type* tp, unsigned int idx)
+: Expr(f->Location())
 {
     name = nm;
     type = tp;

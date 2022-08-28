@@ -31,7 +31,7 @@ protected:
 public:
     Expr(scheat::SourceLocation);
 
-    Expr() : Expr(scheat::OutOfFile()) {};
+    Expr() = delete;
 
     virtual scheatll_type* Type();
 
@@ -62,7 +62,7 @@ class PrimaryExpr : public Expr
 private:
     
 public:
-    PrimaryExpr();
+    PrimaryExpr() = delete;
     PrimaryExpr(scheat::SourceLocation loc) : Expr(loc) {};
     virtual ~PrimaryExpr();
 };
@@ -72,7 +72,7 @@ class Term : public PrimaryExpr
 private:
 
 public:
-    Term();
+    Term() = delete;
     Term(scheat::SourceLocation loc) : PrimaryExpr(loc) {};
     virtual ~Term();
 };

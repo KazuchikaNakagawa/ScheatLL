@@ -15,7 +15,7 @@ private:
 protected:
     llvm::Value *LLVMConvert() override;
 public:
-    ReadExpr(Expr *);
+    ReadExpr(Expr *, scheat::SourceLocation);
     std::string Decode() override;
     scheatll_type* Type() override;
     ~ReadExpr();

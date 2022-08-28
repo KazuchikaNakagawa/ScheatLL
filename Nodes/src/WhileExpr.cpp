@@ -10,6 +10,7 @@ using namespace scheatll;
 
 
 WhileExpr::WhileExpr(Expr *c, Codes *bd)
+: Expr(c->Location())
 {
     Condition = c;
     Body = bd;

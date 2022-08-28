@@ -1,5 +1,7 @@
 #include "../BasicNodes.hpp"
 #include "../../Type/ScLLType.hpp"
+#include "../../Global/Globals.hpp"
+#include "../../Exec/ScheatLLExec.hpp"
 
 using namespace scheatll;
 
@@ -24,15 +26,7 @@ Expr::~Expr()
 {
 }
 
-PrimaryExpr::PrimaryExpr()
-{
-}
-
 PrimaryExpr::~PrimaryExpr()
-{
-}
-
-Term::Term() 
 {
 }
 

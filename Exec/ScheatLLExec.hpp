@@ -2,6 +2,7 @@
 #define SCHEATLLEXEC_HPP
 
 #include "../InsertPoint/InsertPoint.hpp"
+#include "../SourceLocation/SourceLocation.h"
 #include <string>
 #include <map>
 #include <vector>
@@ -33,6 +34,7 @@ protected:
     std::vector<Expr *> globalFunctions;
 
     unsigned int IndentCount = 0;
+
 public:
     // constructor -- needs module name.
     ScheatLLExec(std::string modName);

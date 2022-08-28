@@ -13,7 +13,7 @@ private:
 protected:
     llvm::Value *LLVMConvert() override;
 public:
-    ReturnExpr(Expr *);
+    ReturnExpr(Expr *, scheat::SourceLocation);
     std::string Decode() override;
     scheatll_type* Type() override;
     scheatll_attribute getAttribute() override;

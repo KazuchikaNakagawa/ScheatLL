@@ -5,7 +5,8 @@
 #include "../../Type/ScLLType.hpp"
 using namespace scheatll;
 
-AssignExpr::AssignExpr(Expr *ptr, Expr *val)
+AssignExpr::AssignExpr(Expr *ptr, Expr *val, scheat::SourceLocation l)
+: Expr(l)
 {
     pointer = ptr;
     value = val;

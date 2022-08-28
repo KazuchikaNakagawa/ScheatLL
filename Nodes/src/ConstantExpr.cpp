@@ -7,7 +7,8 @@
 
 using namespace scheatll;
 
-ConstantInt32Expr::ConstantInt32Expr(int i)
+ConstantInt32Expr::ConstantInt32Expr(int i, scheat::SourceLocation l)
+: Term(l)
 {
     data = i;
 }
@@ -30,7 +31,8 @@ scheatll_type* ConstantInt32Expr::Type()
 }
 
 
-ConstantDoubleExpr::ConstantDoubleExpr(double d)
+ConstantDoubleExpr::ConstantDoubleExpr(double d, scheat::SourceLocation l)
+: Term(l)
 {
     data = d;
 }
@@ -55,7 +57,8 @@ scheatll_type* ConstantDoubleExpr::Type()
     return scheatll::Type(Double);
 }
 
-ConstantRawStringExpr::ConstantRawStringExpr(const char *buf)
+ConstantRawStringExpr::ConstantRawStringExpr(const char *buf, scheat::SourceLocation l)
+: Term(l)
 {
     str = buf;
 }
@@ -78,7 +81,8 @@ scheatll_type* ConstantRawStringExpr::Type()
     return (PointerType(scheatll::Type(Int8)));
 }
 
-ConstantBoolExpr::ConstantBoolExpr(bool b)
+ConstantBoolExpr::ConstantBoolExpr(bool b, scheat::SourceLocation l)
+: Term(l)
 {
     data = b;
 }

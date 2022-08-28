@@ -2,7 +2,8 @@
 using namespace scheatll;
 
 
-ReferenceExpr::ReferenceExpr(Expr *ptr)
+ReferenceExpr::ReferenceExpr(Expr *ptr, scheat::SourceLocation l)
+: Term(l)
 {
     src = ptr;
 }

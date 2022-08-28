@@ -8,7 +8,8 @@
 using namespace scheatll;
 
 
-ReadExpr::ReadExpr(Expr *expr)
+ReadExpr::ReadExpr(Expr *expr, scheat::SourceLocation l)
+: Term(l)
 {
     // it does not check readability.
     src = expr;

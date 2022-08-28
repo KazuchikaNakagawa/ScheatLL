@@ -12,7 +12,7 @@ private:
 protected: 
     llvm::Value *LLVMConvert() override;
 public:
-    ConstantInt32Expr(int);
+    ConstantInt32Expr(int, scheat::SourceLocation);
     scheatll_type* Type() override;
     std::string Decode() override;
     ~ConstantInt32Expr();
@@ -25,7 +25,7 @@ private:
 protected: 
     llvm::Value *LLVMConvert() override;
 public:
-    ConstantDoubleExpr(double);
+    ConstantDoubleExpr(double, scheat::SourceLocation);
     scheatll_type* Type() override;
     std::string Decode() override;
     ~ConstantDoubleExpr();
@@ -38,7 +38,7 @@ private:
 protected: 
     llvm::Value *LLVMConvert() override;
 public:
-    ConstantRawStringExpr(const char *);
+    ConstantRawStringExpr(const char *, scheat::SourceLocation);
     scheatll_type* Type() override;
     std::string Decode() override;
     ~ConstantRawStringExpr();
@@ -51,7 +51,7 @@ private:
 protected: 
     llvm::Value *LLVMConvert() override;
 public:
-    ConstantBoolExpr(bool);
+    ConstantBoolExpr(bool, scheat::SourceLocation);
     scheatll_type* Type() override;
     std::string Decode() override;
     ~ConstantBoolExpr();

@@ -9,8 +9,8 @@ llvm::Value* LocalAllocExpr::LLVMConvert(){
     return ScheatllLLVMConverter->Builder().CreateAlloca(ltype, nullptr, variableName);
 }
 
-LocalAllocExpr::LocalAllocExpr(std::string nm, scheatll_type* tp, scheatll_attribute attr)
-: attribute(attr)
+LocalAllocExpr::LocalAllocExpr(std::string nm, scheatll_type* tp, scheatll_attribute attr, scheat::SourceLocation l)
+: attribute(attr), Expr(l)
 {
     variableName = nm;
     variableType = tp;

@@ -3,6 +3,7 @@
 
 #include "BasicNodes.hpp"
 #include "../Attribute/ScLLAttribute.hpp"
+#include "../SourceLocation/SourceLocation.h"
 #include <string>
 
 namespace scheatll
@@ -21,7 +22,7 @@ private:
 protected:
     llvm::Value *LLVMConvert() override;
 public:
-    LocalAllocExpr(std::string, scheatll_type*, scheatll_attribute);
+    LocalAllocExpr(std::string, scheatll_type*, scheatll_attribute, scheat::SourceLocation);
 
     std::string Decode() override;
 

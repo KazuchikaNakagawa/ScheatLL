@@ -35,8 +35,8 @@ scheatll_type* GlobalAllocExpr::Type() {
     return variableType->getPointerTo();
 }
 
-GlobalAllocExpr::GlobalAllocExpr(std::string s, scheatll_type* t, scheatll_attribute att) 
-: attribute(att)
+GlobalAllocExpr::GlobalAllocExpr(std::string s, scheatll_type* t, scheatll_attribute att, scheat::SourceLocation l) 
+: attribute(att), Expr(l)
 {
     variableName = s;
     variableType = t;

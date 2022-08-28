@@ -9,6 +9,7 @@
 using namespace scheatll;
 
 IfExpr::IfExpr(Expr *c, Codes *t)
+: Expr(c->Location())
 {
     Condition = c;
     Then = t;
@@ -59,6 +60,7 @@ llvm::Value *IfExpr::LLVMConvert()
 }
 
 IfElseExpr::IfElseExpr(Expr *c, Codes *t, Codes *e)
+: Expr(c->Location())
 {
     Condition = c;
     Then = t;

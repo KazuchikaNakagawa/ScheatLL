@@ -21,8 +21,8 @@ void ScheatLLExec::StartEditing() {
 ScheatLLExec::ScheatLLExec(std::string modName)
 {
     ModuleName = modName;
-    firstScope = new DeclareFuncExpr(modName, Type(Void), {}, FunctionAttribute());
-    exitScope = new DeclareFuncExpr("exit." + modName, Type(Void), {}, FunctionAttribute());
+    firstScope = new DeclareFuncExpr(modName, Type(Void), {}, FunctionAttribute(), scheat::OutOfFile());
+    exitScope = new DeclareFuncExpr("exit." + modName, Type(Void), {}, FunctionAttribute(), scheat::OutOfFile());
     globalScope = new Codes("global");
     insertPoint.StartEditing(((DeclareFuncExpr *)firstScope)->body);
 }
@@ -57,7 +57,7 @@ void ScheatLLExec::ExportObjectFile()
     llvm::InitializeAllTargetMCs();
     llvm::InitializeAllAsmParsers();
     llvm::InitializeAllAsmPrinters();
-    
+
     auto TargetTriple = llvm::sys::getDefaultTargetTriple();
     ScheatllLLVMConverter->Module()->setTargetTriple(TargetTriple);
 

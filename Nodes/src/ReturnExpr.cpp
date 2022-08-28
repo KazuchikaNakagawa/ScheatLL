@@ -5,7 +5,8 @@
 #include "../../Type/ScheatLLType.hpp"
 using namespace scheatll;
 
-ReturnExpr::ReturnExpr(Expr *expr)
+ReturnExpr::ReturnExpr(Expr *expr, scheat::SourceLocation l)
+: Expr(l)
 {
     value = expr;
 }

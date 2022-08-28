@@ -29,22 +29,28 @@ class scheatll_attribute;
 // --defined
 // creates a local variable.
 // if wants to create a global one, use MakeGlobalVar
-extern void MakeVar(scheatll_type *, std::string, scheatll_attribute);
+extern void MakeVar(scheatll_type *, std::string, scheatll_attribute, scheat::SourceLocation l = scheat::OutOfFile());
 
 // --defined
 // sometime throws error.
 // name duplicated, illegal type, ...
-extern void MakeGlobalVar(scheatll_type *, std::string, scheatll_attribute);
+extern void MakeGlobalVar(scheatll_type *, std::string, scheatll_attribute, scheat::SourceLocation l = scheat::OutOfFile());
 
 // creates a global function
 // it starts editing generated function. 
-extern void MakeFunction(scheatll_type *, std::string, std::vector<scheatll_type *>, std::vector<std::string>, scheatll_attribute);
+extern void MakeFunction(
+    scheatll_type *, 
+    std::string, 
+    std::vector<scheatll_type *>, 
+    std::vector<std::string>, 
+    scheatll_attribute, 
+    scheat::SourceLocation l = scheat::OutOfFile());
 
 // translate C++ to Scheatll
-extern Term* Constant(int);
-extern Term* Constant(const char *);
-extern Term* Constant(double);
-extern Term* Constant(bool);
+extern Term* Constant(int, scheat::SourceLocation l = scheat::OutOfFile());
+extern Term* Constant(const char *, scheat::SourceLocation l = scheat::OutOfFile());
+extern Term* Constant(double, scheat::SourceLocation l = scheat::OutOfFile());
+extern Term* Constant(bool, scheat::SourceLocation l = scheat::OutOfFile());
 
 // create store instruction
 // it does NOT check readability nor writability
@@ -52,18 +58,18 @@ extern Term* Constant(bool);
 // if user wanted to do so.
 // it is a 'raw' assign. someday it will be renamed to 'RawAssign'
 // and new Assign can convert values and assign. 
-extern void Assign(Expr *, Expr *);
+extern void Assign(Expr *, Expr *, scheat::SourceLocation l = scheat::OutOfFile());
 
 // --defined
 // it checks readability.
 // it may throw two kinds of errors.
 // value not readable
-extern Term* Read(Expr*);
+extern Term* Read(Expr*, scheat::SourceLocation l = scheat::OutOfFile());
 
 // !!
 // it may throw errors.
 // name not exists
-extern Term* ID(std::string);
+extern Term* ID(std::string, scheat::SourceLocation l = scheat::OutOfFile());
 
 // be careful when calling this function.
 // this sometimes generates various instructions.
@@ -77,7 +83,7 @@ extern void IfElse(Expr *);
 
 extern void While(Expr *);
 
-extern void Return(Expr *);
+extern void Return(Expr *, scheat::SourceLocation l = scheat::OutOfFile());
 
 // --defined
 // creates a attribute

@@ -20,8 +20,9 @@ DeclareFuncExpr::DeclareFuncExpr(
     std::string nm, 
     scheatll_type* rtp, 
     std::vector<scheatll_type*> argtps, 
-    scheatll_attribute attr)
-: attribute(attr)
+    scheatll_attribute attr,
+    scheat::SourceLocation l)
+: attribute(attr), Expr(l)
 {
     functionName = nm;
     functionReturnType = rtp;

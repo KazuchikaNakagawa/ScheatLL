@@ -21,7 +21,7 @@ private:
 protected:
     llvm::Value *LLVMConvert() override;
 public:
-    GlobalAllocExpr(std::string, scheatll_type*, scheatll_attribute);
+    GlobalAllocExpr(std::string, scheatll_type*, scheatll_attribute, scheat::SourceLocation);
 
     std::string Decode() override;
 
