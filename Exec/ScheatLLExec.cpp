@@ -21,8 +21,9 @@ void ScheatLLExec::StartEditing() {
 ScheatLLExec::ScheatLLExec(std::string modName)
 {
     ModuleName = modName;
-    firstScope = new DeclareFuncExpr(modName, Type(Void), {}, FunctionAttribute(), scheat::OutOfFile());
-    exitScope = new DeclareFuncExpr("exit." + modName, Type(Void), {}, FunctionAttribute(), scheat::OutOfFile());
+    auto attribute = FunctionAttribute();
+    firstScope = new DeclareFuncExpr(modName, Type(Void), {}, attribute, scheat::OutOfFile());
+    exitScope = new DeclareFuncExpr("exit." + modName, Type(Void), {}, attribute, scheat::OutOfFile());
     globalScope = new Codes("global");
     insertPoint.StartEditing(((DeclareFuncExpr *)firstScope)->body);
 }

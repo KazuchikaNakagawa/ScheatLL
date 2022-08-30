@@ -29,6 +29,7 @@ add_library(Scheatll STATIC
 ./Type/ScLLType.cpp
 ./Type/ScheatFuncType.cpp
 ./SourceLocation/SourceLocation.cpp
+./String/String.cpp
 )
 
 link_directories(/usr/local/opt/llvm/lib)

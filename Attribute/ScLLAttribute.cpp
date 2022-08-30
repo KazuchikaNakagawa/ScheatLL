@@ -8,6 +8,11 @@ scheatll_attribute scheatll::Attribute(ReadAttribute r, WriteAttribute w, Access
     return scheatll_attribute(r, w, a);
 }
 
+scheatll_attribute::scheatll_attribute(const scheatll_attribute &attr)
+: scheatll_attribute(attr.r, attr.w, attr.a)
+{
+}
+
 scheatll_attribute scheatll::FunctionAttribute(AccessAttribute a)
 {
     return scheatll_attribute(readable, unwritable, a);

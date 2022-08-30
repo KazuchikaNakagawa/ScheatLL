@@ -34,6 +34,7 @@ public:
     bool is_writable() { return w == writable; };
     bool is_public() { return a == _public; };
     std::string to_string();
+    scheatll_attribute(const scheatll_attribute &);
     ~scheatll_attribute();
 };
 
