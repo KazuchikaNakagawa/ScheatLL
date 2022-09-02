@@ -4,6 +4,7 @@
 #include "../Codes/Codes.hpp"
 #include "../Error/ScheatLLError.hpp"
 #include "../Type/ScheatLLType.hpp"
+#include "../Type/ScheatFuncType.hpp"
 #include <iostream>
 #include <cstdlib>
 #include <typeinfo>
@@ -220,4 +221,80 @@ void scheatll::Return(Expr *val, scheat::SourceLocation l)
     auto inst = new ReturnExpr(val, l);
     EditingTarget->InsertIR(inst);
     EditingTarget->getInsertedPoint()->Exit();
+}
+
+Expr* scheatll::Operate(Expr *L, std::string O, Expr *R, scheat::SourceLocation l)
+{
+    // Int-Int-Optimization
+    if (L->Type() == Type(Int32) && R->Type() == Type(Int32))
+    {
+        if (O != "+" && O != "-")
+        {
+            throw scheatll_operator_not_exist_error();
+        }
+        
+        return new IntIntInfixOperatorExpr(L, O, R, l);
+    }
+    auto oper = L->Type()->FindOperator(O);
+    if (oper == nullptr)
+    {
+        throw scheatll_operator_not_exist_error();
+    }
+
+    if (oper->Position != Infix)
+    {
+        throw scheatll_operator_not_exist_error();
+    }
+
+    if (oper->Precedence != Normal)
+    {
+        throw scheatll_operator_not_exist_error();
+    }
+    
+    // TODO: call linked function
+    throw scheatll_unavailable_feature_error();
+    return nullptr;
+}
+
+PrimaryExpr* scheatll::Operate(PrimaryExpr *L, std::string O, PrimaryExpr *R, scheat::SourceLocation l)
+{
+    if (L->Type() == Type(Int32) && R->Type() == Type(Int32))
+    {
+        if (O != "*" && O != "/")
+        {
+            throw scheatll_operator_not_exist_error();
+        }
+
+        return new IntIntInfixPrimaryOperatorExpr(L, O, R, l);
+    }
+    throw scheatll_unavailable_feature_error();
+    return nullptr;
+}
+
+Expr *scheatll::Call(Expr *f, std::vector<Expr *> as, scheat::SourceLocation l)
+{
+    if (!f->Type()->isFunctionType())
+    {
+        throw scheatll_value_error();
+    }
+    
+    auto inst = new CallExpr(f, as, l);
+    return inst;
+}
+
+void scheatll::CallVoid(Expr *f, std::vector<Expr *> as, scheat::SourceLocation l)
+{
+    if (!f->Type()->isFunctionType())
+    {
+        throw scheatll_value_error();
+    }
+    // non-void function can be used
+    // if (dynamic_cast<scheat_func_type*>(f->Type())->getReturnType() != Type(Void))
+    // {
+        
+    // }
+    
+    
+    auto inst = new CallExpr(f, as, l);
+    EditingTarget->InsertIR(inst);
 }

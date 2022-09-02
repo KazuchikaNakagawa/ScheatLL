@@ -2,6 +2,7 @@
 #define SCHEATLLTYPE_HPP
 
 #include "ScLLDefaultTypes.hpp"
+#include "OperatorImpl.hpp"
 #include <string>
 #include <map>
 
@@ -13,7 +14,7 @@ class Type;
 namespace scheatll
 {
 
-class scheatll_type
+class scheatll_type : public OperatorImpl
 {
 protected:
     DefaultType defType;
@@ -45,6 +46,8 @@ public:
     bool isPointerType() { return defType == Pointer; };
 
     bool isFunctionType() { return defType == FunctionType; };
+
+    virtual scheatll_type* getReturnType() { throw std::runtime_error("type has no return type"); return nullptr; };
 
     std::map<std::string, scheatll_type*> funcTypeTable; 
 

@@ -78,6 +78,16 @@ public:
     ~scheatll_name_not_exist_error() {};
 };
 
+class scheatll_operator_not_exist_error : public scheatll_error
+{
+public:
+    scheatll_operator_not_exist_error() {};
+    virtual const char* what() const noexcept override {
+        return "given operator does not exist";
+    }
+    ~scheatll_operator_not_exist_error() {};
+};
+
 class scheatll_name_already_defined_error : public scheatll_error
 {
 public:
@@ -106,6 +116,16 @@ public:
         return "function return type error";
     }
     ~scheatll_return_error() {};
+};
+
+class scheatll_unavailable_feature_error : public scheatll_error
+{
+public:
+    scheatll_unavailable_feature_error() {};
+    virtual const char* what() const noexcept override {
+        return "this feature is not available yet";
+    }
+    ~scheatll_unavailable_feature_error() {};
 };
 
 } // namespace scheatll

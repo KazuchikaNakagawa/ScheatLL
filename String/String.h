@@ -11,7 +11,8 @@ public:
     String (){};
     String(const char *s) : std::string(s) {};
     String(std::string &&s) : std::string(s) {};
-    String(value_type c) : std::string("")
+    String(const String &);
+    String(value_type c) : std::string()
     {
         this->push_back(c);
     };

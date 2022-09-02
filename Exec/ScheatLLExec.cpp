@@ -51,7 +51,7 @@ void ScheatLLExec::ConvertToLLVMIR() {
     exitScope->LLVMEncode();
 }
 
-void ScheatLLExec::ExportObjectFile()
+void ScheatLLExec::ExportObjectFile(bool ll)
 {
     llvm::InitializeAllTargetInfos();
     llvm::InitializeAllTargets();
@@ -89,6 +89,14 @@ void ScheatLLExec::ExportObjectFile()
         exit(9);
     }
 
+    // and generate ll file
+    if (ll) {
+        auto fn = this->ModuleName + ".ll";
+        std::error_code errC;
+        llvm::raw_fd_ostream llfile(fn, errC, llvm::sys::fs::OF_None);
+        ScheatllLLVMConverter->Module()->print(llfile, nullptr);
+        llfile.flush();
+    }
     llvm::legacy::PassManager pass;
     auto FileType = llvm::CGFT_ObjectFile;
 

@@ -46,6 +46,12 @@ extern void MakeFunction(
     scheatll_attribute, 
     scheat::SourceLocation l = scheat::OutOfFile());
 
+// creates function calling
+// if first argument is not a function, throws error
+// if void function was called, returns nullptr. or returns return-value
+extern Expr* Call(Expr*, std::vector<Expr *>, scheat::SourceLocation l = scheat::OutOfFile());
+extern void CallVoid(Expr *, std::vector<Expr *>, scheat::SourceLocation l = scheat::OutOfFile());
+
 // translate C++ to Scheatll
 extern Term* Constant(int, scheat::SourceLocation l = scheat::OutOfFile());
 extern Term* Constant(const char *, scheat::SourceLocation l = scheat::OutOfFile());
@@ -93,6 +99,24 @@ extern scheatll_attribute FunctionAttribute(AccessAttribute a = _internal);
 // !!
 // create a name from string.
 extern scheatll_name* NewName(std::string);
+
+// Operate functions
+// compiler may detect which to call correctly, but had better specify types(Expr--PrimaryExpr--Term)
+// if selected operator is not for expr, occurs an error
+// infixes
+extern Expr*        Operate(Expr *, std::string, Expr *, scheat::SourceLocation l = scheat::OutOfFile());
+extern PrimaryExpr* Operate(PrimaryExpr *, std::string, PrimaryExpr *, scheat::SourceLocation l = scheat::OutOfFile());
+extern Term*        Operate(Term *, std::string, Term *, scheat::SourceLocation l = scheat::OutOfFile());
+
+// prefixes
+extern Expr*        Operate(std::string, Expr *, scheat::SourceLocation l = scheat::OutOfFile());
+extern PrimaryExpr* Operate(std::string, PrimaryExpr *, scheat::SourceLocation l = scheat::OutOfFile());
+extern Term*        Operate(std::string, Term *, scheat::SourceLocation l = scheat::OutOfFile());
+
+// postfixes
+extern Expr*        Operate(Expr *, std::string, scheat::SourceLocation l = scheat::OutOfFile());
+extern PrimaryExpr* Operate(PrimaryExpr *, std::string, scheat::SourceLocation l = scheat::OutOfFile());
+extern Term*        Operate(Term *, std::string, scheat::SourceLocation l = scheat::OutOfFile());
 
 } // namespace scheatll
 

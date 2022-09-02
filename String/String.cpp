@@ -11,3 +11,8 @@ String String::stripPath()
     
     return this->substr(pos + 1, this->size());
 }
+
+String::String(const String &s)
+: std::string(s)
+{
+}

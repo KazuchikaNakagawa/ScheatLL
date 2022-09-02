@@ -17,6 +17,7 @@ public:
     scheat_func_type(scheatll_type*, std::vector<scheatll_type *>&);
     llvm::Type *LLVMType() override;
     std::string typeName() override;
+    scheatll_type* getReturnType() override{ return returnType; };
     ~scheat_func_type();
 };
 

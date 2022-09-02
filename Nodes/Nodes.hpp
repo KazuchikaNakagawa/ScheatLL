@@ -13,5 +13,7 @@
 #include "IfExprs.hpp"
 #include "ReturnExpr.hpp"
 #include "WhileExpr.hpp"
+#include "DefaultOperatorsExpr.hpp"
+#include "CallExpr.hpp"
 
 #endif // SCHEATLLNODES_HPP

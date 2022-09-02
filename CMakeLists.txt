@@ -3,6 +3,9 @@ project(Scheatll CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(CMAKE_CXX_FLAGS "")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -DDEBUG -g")
+
 # libScheatll
 add_library(Scheatll STATIC
 ./API/ScheatLL.cpp
@@ -24,10 +27,13 @@ add_library(Scheatll STATIC
 ./Nodes/src/ReturnExpr.cpp
 ./Nodes/src/IfExprs.cpp
 ./Nodes/src/WhileExpr.cpp
+./Nodes/src/DefaultOperatorsExpr.cpp
+./Nodes/src/CallExpr.cpp
 ./Type/ScheatLLPointerType.cpp
 ./Type/ScheatLLType.cpp
 ./Type/ScLLType.cpp
 ./Type/ScheatFuncType.cpp
+./Type/OperatorImpl.cpp
 ./SourceLocation/SourceLocation.cpp
 ./String/String.cpp
 )
@@ -45,4 +51,4 @@ include_directories(/usr/local/opt/llvm/include)
 
 target_link_libraries(test Scheatll LLVM)
 
-add_custom_target(link COMMAND "ln" "-s" "libScheatll.a" "/usr/local/lib/libScheatll.a")
+add_custom_target(link COMMAND "ln" "-s" "-f" "libScheatll.a" "/usr/local/lib/libScheatll.a")
