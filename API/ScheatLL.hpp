@@ -91,6 +91,8 @@ extern void While(Expr *);
 
 extern void Return(Expr *, scheat::SourceLocation l = scheat::OutOfFile());
 
+extern Term* Paren(Expr *);
+
 // --defined
 // creates a attribute
 extern scheatll_attribute Attribute(ReadAttribute r = readable, WriteAttribute w = writable, AccessAttribute a = _internal);

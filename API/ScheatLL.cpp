@@ -271,6 +271,57 @@ PrimaryExpr* scheatll::Operate(PrimaryExpr *L, std::string O, PrimaryExpr *R, sc
     return nullptr;
 }
 
+Term* scheatll::Operate(Term *L, std::string O, Term *R, scheat::SourceLocation l)
+{
+    // if (L->Type() == Type(Int32) && R->Type() == Type(Int32))
+    // {
+    //     if (O != "^")
+    //     {
+    //         throw scheatll_operator_not_exist_error();
+    //     }
+
+    //     return new IntIntInfixTermOperatorExpr(L, O, R, l);
+    // }
+    throw scheatll_unavailable_feature_error();
+    return nullptr;
+}
+
+Expr* scheatll::Operate(std::string O, Expr *R, scheat::SourceLocation l)
+{
+    throw scheatll_unavailable_feature_error();
+    return nullptr;
+}
+
+PrimaryExpr* scheatll::Operate(std::string O, PrimaryExpr *R, scheat::SourceLocation l)
+{
+    throw scheatll_unavailable_feature_error();
+    return nullptr;
+}
+
+Term* scheatll::Operate(std::string O, Term *R, scheat::SourceLocation l)
+{
+    throw scheatll_unavailable_feature_error();
+    return nullptr;
+}
+
+Expr* scheatll::Operate(Expr *L, std::string O, scheat::SourceLocation l)
+{
+    throw scheatll_unavailable_feature_error();
+    return nullptr;
+}
+
+PrimaryExpr* scheatll::Operate(PrimaryExpr *L, std::string O, scheat::SourceLocation l)
+{
+    throw scheatll_unavailable_feature_error();
+    return nullptr;
+}
+
+Term* scheatll::Operate(Term *L, std::string O, scheat::SourceLocation l)
+{
+    throw scheatll_unavailable_feature_error();
+    return nullptr;
+}
+
 Expr *scheatll::Call(Expr *f, std::vector<Expr *> as, scheat::SourceLocation l)
 {
     if (!f->Type()->isFunctionType())

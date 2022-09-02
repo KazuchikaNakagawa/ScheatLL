@@ -26,6 +26,12 @@ ScheatLLExec::ScheatLLExec(std::string modName)
     exitScope = new DeclareFuncExpr("exit." + modName, Type(Void), {}, attribute, scheat::OutOfFile());
     globalScope = new Codes("global");
     insertPoint.StartEditing(((DeclareFuncExpr *)firstScope)->body);
+
+    // adds default operators
+    scheatll_type::int_type->AddInfixOperator("+", Normal);
+    scheatll_type::int_type->AddInfixOperator("-", Normal);
+    scheatll_type::int_type->AddInfixOperator("*", Primary);
+    scheatll_type::int_type->AddInfixOperator("/", Primary);
 }
 
 ScheatLLExec::~ScheatLLExec()

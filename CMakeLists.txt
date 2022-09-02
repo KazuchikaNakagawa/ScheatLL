@@ -29,6 +29,7 @@ add_library(Scheatll STATIC
 ./Nodes/src/WhileExpr.cpp
 ./Nodes/src/DefaultOperatorsExpr.cpp
 ./Nodes/src/CallExpr.cpp
+./Nodes/src/ParenExpr.cpp
 ./Type/ScheatLLPointerType.cpp
 ./Type/ScheatLLType.cpp
 ./Type/ScLLType.cpp
