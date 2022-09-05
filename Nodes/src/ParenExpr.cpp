@@ -20,3 +20,8 @@ std::string ParenExpr::Decode()
 {
     return "(" + src->Decode() + ")";
 }
+
+scheatll_type* ParenExpr::Type()
+{
+    return src->Type();
+}

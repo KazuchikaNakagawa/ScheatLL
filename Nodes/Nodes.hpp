@@ -15,5 +15,6 @@
 #include "WhileExpr.hpp"
 #include "DefaultOperatorsExpr.hpp"
 #include "CallExpr.hpp"
+#include "ExternalFuncExpr.hpp"
 
 #endif // SCHEATLLNODES_HPP

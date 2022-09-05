@@ -71,7 +71,9 @@ llvm::Value *IntIntInfixPrimaryOperatorExpr::LLVMConvert()
 
     else if (operatorSymbol == "/")
     {
-        return ScheatllLLVMConverter->Builder().CreateFDiv(Lhs, Rhs);
+        auto lfp = ScheatllLLVMConverter->Builder().CreateSIToFP(Lhs, ScheatllLLVMConverter->Builder().getDoubleTy());
+        auto rfp = ScheatllLLVMConverter->Builder().CreateSIToFP(Rhs, ScheatllLLVMConverter->Builder().getDoubleTy());
+        return ScheatllLLVMConverter->Builder().CreateFDiv(lfp, rfp);
     }
     
     else

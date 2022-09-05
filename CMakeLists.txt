@@ -30,6 +30,7 @@ add_library(Scheatll STATIC
 ./Nodes/src/DefaultOperatorsExpr.cpp
 ./Nodes/src/CallExpr.cpp
 ./Nodes/src/ParenExpr.cpp
+./Nodes/src/ExternalFuncExpr.cpp
 ./Type/ScheatLLPointerType.cpp
 ./Type/ScheatLLType.cpp
 ./Type/ScLLType.cpp

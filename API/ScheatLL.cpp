@@ -349,3 +349,14 @@ void scheatll::CallVoid(Expr *f, std::vector<Expr *> as, scheat::SourceLocation 
     auto inst = new CallExpr(f, as, l);
     EditingTarget->InsertIR(inst);
 }
+
+void scheatll::External(
+    scheatll_type* tp, 
+    std::string nm, 
+    std::vector<scheatll_type *> ats, 
+    scheat::SourceLocation l)
+{
+    auto inst = new ExternalFuncExpr(tp, nm, ats, l);
+    EditingTarget->VerifyGlobalFunc(inst);
+    EditingTarget->globals[nm] = inst;
+}

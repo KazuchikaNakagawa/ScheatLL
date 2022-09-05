@@ -46,6 +46,12 @@ extern void MakeFunction(
     scheatll_attribute, 
     scheat::SourceLocation l = scheat::OutOfFile());
 
+extern void External(
+    scheatll_type*, 
+    std::string, 
+    std::vector<scheatll_type *>, 
+    scheat::SourceLocation l = scheat::OutOfFile());
+
 // creates function calling
 // if first argument is not a function, throws error
 // if void function was called, returns nullptr. or returns return-value

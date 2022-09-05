@@ -9,6 +9,7 @@ int main() {
     
     // ------------------
     MakeGlobalVar(nullptr, "undefinedTypeVar", Attribute());
+    External(Type(Void), "exit", {Type(Int32)});
     MakeFunction(Type(Void), "++", {}, {}, FunctionAttribute());
     End();
     CallVoid(ID("++"), {});
