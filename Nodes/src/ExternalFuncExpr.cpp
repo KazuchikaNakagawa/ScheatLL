@@ -5,8 +5,8 @@
 #include "../../LLVMConverter/LLVMConverter.hpp"
 using namespace scheatll;
 
-ExternalFuncExpr::ExternalFuncExpr(scheatll_type* tp, std::string nm, std::vector<scheatll_type*> args, scheat::SourceLocation l)
-: Expr(l), Return_Type(tp), Name(nm), ArgTypes(args)
+ExternalFuncExpr::ExternalFuncExpr(scheatll_type* tp, std::string nm, std::vector<scheatll_type*> args, bool va, scheat::SourceLocation l)
+: Expr(l), Return_Type(tp), Name(nm), ArgTypes(args), isVarArg(va)
 {
 }
 

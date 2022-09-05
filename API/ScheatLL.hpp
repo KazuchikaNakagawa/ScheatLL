@@ -50,6 +50,7 @@ extern void External(
     scheatll_type*, 
     std::string, 
     std::vector<scheatll_type *>, 
+    bool varArg = false,
     scheat::SourceLocation l = scheat::OutOfFile());
 
 // creates function calling

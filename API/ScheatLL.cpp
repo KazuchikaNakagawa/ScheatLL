@@ -354,9 +354,10 @@ void scheatll::External(
     scheatll_type* tp, 
     std::string nm, 
     std::vector<scheatll_type *> ats, 
+    bool varArg,
     scheat::SourceLocation l)
 {
-    auto inst = new ExternalFuncExpr(tp, nm, ats, l);
+    auto inst = new ExternalFuncExpr(tp, nm, ats, varArg, l);
     EditingTarget->VerifyGlobalFunc(inst);
     EditingTarget->globals[nm] = inst;
 }

@@ -13,10 +13,11 @@ private:
     scheatll_type* Return_Type;
     std::string Name;
     std::vector<scheatll_type*> ArgTypes;
+    bool isVarArg;
 protected:
     llvm::Value *LLVMConvert() override;
 public:
-    ExternalFuncExpr(scheatll_type*, std::string, std::vector<scheatll_type*>, scheat::SourceLocation);
+    ExternalFuncExpr(scheatll_type*, std::string, std::vector<scheatll_type*>, bool, scheat::SourceLocation);
     scheatll_type* Type() override;
     std::string Decode() override;
     ~ExternalFuncExpr();
