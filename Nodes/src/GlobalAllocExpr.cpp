@@ -2,17 +2,29 @@
 #include "../../Global/Globals.hpp"
 #include "../../LLVMConverter/LLVMConverter.hpp"
 #include "../../Type/ScheatLLType.hpp"
+#include "../../API/ScheatLL.hpp"
 
 using namespace scheatll;
 
 llvm::Value *GlobalAllocExpr::LLVMConvert(){
     auto ltype = variableType->LLVMType();
+    llvm::Constant *defaultVal = nullptr;
+    if (variableType == scheatll::Type(Int32))
+    {
+        defaultVal = ScheatllLLVMConverter->Builder().getInt32(0);
+    }else if (variableType == scheatll::Type(Double))
+    {
+        defaultVal = llvm::ConstantFP::get(ScheatllLLVMConverter->Builder().getDoubleTy(), 0.0);
+    }else{
+        defaultVal = llvm::ConstantAggregateZero::get(ltype);
+    }
+    
     return new llvm::GlobalVariable(
         *ScheatllLLVMConverter->Module(),
         ltype,
         false, 
         llvm::GlobalValue::ExternalLinkage,
-        nullptr, 
+        defaultVal, 
         variableName
     );
 }

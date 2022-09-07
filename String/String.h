@@ -17,6 +17,9 @@ public:
         this->push_back(c);
     };
     String stripPath();
+    String stripExtension();
+    bool endsWith(String);
+    bool startsWith(String);
     virtual ~String (){};
 };
 

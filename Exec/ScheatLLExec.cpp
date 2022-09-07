@@ -57,13 +57,19 @@ void ScheatLLExec::ConvertToLLVMIR() {
     exitScope->LLVMEncode();
 }
 
-void ScheatLLExec::ExportObjectFile(bool ll)
+void ScheatLLExec::ExportObjectFile(bool ll, std::string FilePath)
 {
     llvm::InitializeAllTargetInfos();
     llvm::InitializeAllTargets();
     llvm::InitializeAllTargetMCs();
     llvm::InitializeAllAsmParsers();
     llvm::InitializeAllAsmPrinters();
+
+    if (FilePath.empty())
+    {
+        FilePath = ModuleName;
+    }
+    
 
     auto TargetTriple = llvm::sys::getDefaultTargetTriple();
     ScheatllLLVMConverter->Module()->setTargetTriple(TargetTriple);
@@ -86,7 +92,7 @@ void ScheatLLExec::ExportObjectFile(bool ll)
 
     ScheatllLLVMConverter->Module()->setDataLayout(TheTargetMachine->createDataLayout());
 
-    auto Filename = this->ModuleName + ".o";
+    auto Filename = FilePath + ".o";
     std::error_code EC;
     llvm::raw_fd_ostream dest(Filename, EC, llvm::sys::fs::OF_None);
 
@@ -97,7 +103,7 @@ void ScheatLLExec::ExportObjectFile(bool ll)
 
     // and generate ll file
     if (ll) {
-        auto fn = this->ModuleName + ".ll";
+        auto fn = FilePath + ".ll";
         std::error_code errC;
         llvm::raw_fd_ostream llfile(fn, errC, llvm::sys::fs::OF_None);
         ScheatllLLVMConverter->Module()->print(llfile, nullptr);
