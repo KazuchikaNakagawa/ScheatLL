@@ -191,6 +191,7 @@ void scheatll::IfElse(Expr *cond)
     {
         throw scheatll_expected_value_error();
     }
+    
     auto thenCodes = new Codes("if", false);
     auto elseCodes = new Codes("else", false);
     auto inst = new IfElseExpr(cond, thenCodes, elseCodes);
@@ -228,7 +229,14 @@ Expr* scheatll::Operate(Expr *L, std::string O, Expr *R, scheat::SourceLocation 
     // Int-Int-Optimization
     if (L->Type() == Type(Int32) && R->Type() == Type(Int32))
     {
-        if (O != "+" && O != "-")
+        if (
+            O != "+" 
+            && O != "-" 
+            && O != "<"
+            && O != ">"
+            && O != "<="
+            && O != ">="
+            && O != "==")
         {
             throw scheatll_operator_not_exist_error();
         }

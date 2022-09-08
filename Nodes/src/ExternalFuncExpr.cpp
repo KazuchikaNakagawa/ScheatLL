@@ -46,7 +46,7 @@ llvm::Value *ExternalFuncExpr::LLVMConvert()
     {
         ltps.push_back(i->LLVMType());
     }
-    llvm::FunctionType *fty = llvm::FunctionType::get(Return_Type->LLVMType(), ltps, false);
+    llvm::FunctionType *fty = llvm::FunctionType::get(Return_Type->LLVMType(), ltps, isVarArg);
     llvm::Function *F = llvm::Function::Create(fty, llvm::Function::ExternalLinkage, Name, ScheatllLLVMConverter->Module());
     return F;
 }

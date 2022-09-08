@@ -31,6 +31,31 @@ llvm::Value *IntIntInfixOperatorExpr::LLVMConvert()
         // TODO: is this okay?
         return ScheatllLLVMConverter->Builder().CreateSub(Lhs, Rhs);
     }
+
+    else if (operatorSymbol == ">")
+    {
+        return ScheatllLLVMConverter->Builder().CreateICmpSGT(Lhs, Rhs);
+    }
+    
+    else if (operatorSymbol == "<")
+    {
+        return ScheatllLLVMConverter->Builder().CreateICmpSLT(Lhs, Rhs);
+    }
+    
+    else if (operatorSymbol == ">=")
+    {
+        return ScheatllLLVMConverter->Builder().CreateICmpSGE(Lhs, Rhs);
+    }
+    
+    else if (operatorSymbol == "<=")
+    {
+        return ScheatllLLVMConverter->Builder().CreateICmpSLE(Lhs, Rhs);
+    }
+
+    else if (operatorSymbol == "==")
+    {
+        return ScheatllLLVMConverter->Builder().CreateICmpEQ(Lhs, Rhs);
+    }
     
     else
     {
@@ -40,6 +65,40 @@ llvm::Value *IntIntInfixOperatorExpr::LLVMConvert()
 
 scheatll_type* IntIntInfixOperatorExpr::Type()
 {
+    if (operatorSymbol == "+")
+    {
+        return scheatll::Type(Int32);
+    }
+
+    else if (operatorSymbol == "-")
+    {
+        return scheatll::Type(Int32);
+    }
+
+    else if (operatorSymbol == ">")
+    {
+        return scheatll::Type(Int1);
+    }
+    
+    else if (operatorSymbol == "<")
+    {
+        return scheatll::Type(Int1);
+    }
+    
+    else if (operatorSymbol == ">=")
+    {
+        return scheatll::Type(Int1);
+    }
+    
+    else if (operatorSymbol == "<=")
+    {
+        return scheatll::Type(Int1);
+    }
+
+    else if (operatorSymbol == "==")
+    {
+        return scheatll::Type(Int1);
+    }
     return scheatll::Type(Int32);
 }
 
@@ -75,7 +134,7 @@ llvm::Value *IntIntInfixPrimaryOperatorExpr::LLVMConvert()
         auto rfp = ScheatllLLVMConverter->Builder().CreateSIToFP(Rhs, ScheatllLLVMConverter->Builder().getDoubleTy());
         return ScheatllLLVMConverter->Builder().CreateFDiv(lfp, rfp);
     }
-    
+
     else
     {
         throw scheatll_operator_not_exist_error();

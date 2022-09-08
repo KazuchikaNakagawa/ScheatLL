@@ -10,9 +10,12 @@ int main() {
     // ------------------
     MakeGlobalVar(nullptr, "undefinedTypeVar", Attribute());
     External(Type(Void), "exit", {Type(Int32)});
-    MakeFunction(Type(Void), "++", {}, {}, FunctionAttribute());
+    MakeFunction(Type(Void), "abcde", {Type(Int32)}, {"dd"}, FunctionAttribute());
+    If(Constant(true));
+        Assign(ID("undefinedTypeVar"), Constant(50));
     End();
-    CallVoid(ID("++"), {});
+    End();
+    CallVoid(ID("abcde"), {});
     Assign(ID("undefinedTypeVar"), Constant(50));
     exec->ConvertToLLVMIR();
     exec->LLVMDump();

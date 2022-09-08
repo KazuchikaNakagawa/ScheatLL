@@ -32,6 +32,11 @@ ScheatLLExec::ScheatLLExec(std::string modName)
     scheatll_type::int_type->AddInfixOperator("-", Normal);
     scheatll_type::int_type->AddInfixOperator("*", Primary);
     scheatll_type::int_type->AddInfixOperator("/", Primary);
+    scheatll_type::int_type->AddInfixOperator("==", Normal);
+    scheatll_type::int_type->AddInfixOperator("<", Normal);
+    scheatll_type::int_type->AddInfixOperator(">", Normal);
+    scheatll_type::int_type->AddInfixOperator("<=", Normal);
+    scheatll_type::int_type->AddInfixOperator(">=", Normal);
 }
 
 ScheatLLExec::~ScheatLLExec()

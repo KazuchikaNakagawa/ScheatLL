@@ -52,6 +52,7 @@ llvm::Value* DeclareFuncExpr::LLVMConvert(){
     }
     llvm::FunctionType *fty = llvm::FunctionType::get(functionReturnType->LLVMType(), ltps, false);
     llvm::Function *F = llvm::Function::Create(fty, llvm::Function::ExternalLinkage, functionName, ScheatllLLVMConverter->Module());
+    LLVMVal = F;
     // TODO: enable to use named arguments and Arg->setName
     llvm::BasicBlock *BB = llvm::BasicBlock::Create(
         ScheatllLLVMConverter->Context(), 

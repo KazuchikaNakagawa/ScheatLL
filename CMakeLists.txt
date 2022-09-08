@@ -48,9 +48,15 @@ add_executable(test
 ./Test/main.cpp
 )
 
+add_executable(
+    stdmaker
+    ./ScheatStd/main.cpp
+)
+
 link_directories(/usr/local/opt/llvm/lib)
 include_directories(/usr/local/opt/llvm/include)
 
 target_link_libraries(test Scheatll LLVM)
+target_link_libraries(stdmaker Scheatll LLVM)
 
 add_custom_target(link COMMAND "ln" "-s" "-f" "libScheatll.a" "/usr/local/lib/libScheatll.a")
