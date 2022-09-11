@@ -38,17 +38,17 @@ std::string scheatll_type::typeName() {
     switch (this->defType)
     {
     case Int32:
-        return "int32";
+        return "Int";
     case Int8:
-        return "int8";
+        return "Char";
     case Int64:
-        return "int64";
+        return "Int64";
     case Int1:
-        return "int1";
+        return "Bool";
     case Double:
-        return "double";
+        return "Float";
     case Void:
-        return "void";
+        return "Void";
     default:
         // this means structures/classes did not have a correct typeName() function.
         return "";

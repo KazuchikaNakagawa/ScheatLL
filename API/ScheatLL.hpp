@@ -56,7 +56,7 @@ extern void External(
 // creates function calling
 // if first argument is not a function, throws error
 // if void function was called, returns nullptr. or returns return-value
-extern Expr* Call(Expr*, std::vector<Expr *>, scheat::SourceLocation l = scheat::OutOfFile());
+extern Term* Call(Expr*, std::vector<Expr *>, scheat::SourceLocation l = scheat::OutOfFile());
 extern void CallVoid(Expr *, std::vector<Expr *>, scheat::SourceLocation l = scheat::OutOfFile());
 
 // translate C++ to Scheatll
@@ -98,7 +98,7 @@ extern void While(Expr *);
 
 extern void Return(Expr *, scheat::SourceLocation l = scheat::OutOfFile());
 
-extern Term* Paren(Expr *);
+extern Term* Paren(Expr *, scheat::SourceLocation l = scheat::OutOfFile());
 
 // --defined
 // creates a attribute

@@ -330,7 +330,7 @@ Term* scheatll::Operate(Term *L, std::string O, scheat::SourceLocation l)
     return nullptr;
 }
 
-Expr *scheatll::Call(Expr *f, std::vector<Expr *> as, scheat::SourceLocation l)
+Term *scheatll::Call(Expr *f, std::vector<Expr *> as, scheat::SourceLocation l)
 {
     if (!f->Type()->isFunctionType())
     {
@@ -338,6 +338,11 @@ Expr *scheatll::Call(Expr *f, std::vector<Expr *> as, scheat::SourceLocation l)
     }
     
     auto inst = new CallExpr(f, as, l);
+    if (inst->Type() == scheatll::Type(Void))
+    {
+        EditingTarget->InsertIR(inst);
+    }
+    
     return inst;
 }
 
@@ -356,6 +361,11 @@ void scheatll::CallVoid(Expr *f, std::vector<Expr *> as, scheat::SourceLocation 
     
     auto inst = new CallExpr(f, as, l);
     EditingTarget->InsertIR(inst);
+}
+
+Term* scheatll::Paren(Expr* expr, scheat::SourceLocation l)
+{
+    return new ParenExpr(expr, l);
 }
 
 void scheatll::External(

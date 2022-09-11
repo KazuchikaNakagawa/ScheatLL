@@ -54,7 +54,7 @@ void ScheatLLExec::ConvertToLLVMIR() {
 
     for (auto &&f : globalFunctions)
     {
-        std::cerr << f->LLVMEncode() << std::endl;
+        f->LLVMEncode();
     }
 
     // 理論上は、ここに全て集約されているはず？
@@ -121,7 +121,6 @@ void ScheatLLExec::ExportObjectFile(bool ll, std::string FilePath)
         llvm::errs() << "TheTargetMachine can't emit a file of this type";
         exit(9);
     }
-
     pass.run(*ScheatllLLVMConverter->Module());
     dest.flush();
 }

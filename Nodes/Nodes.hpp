@@ -16,5 +16,6 @@
 #include "DefaultOperatorsExpr.hpp"
 #include "CallExpr.hpp"
 #include "ExternalFuncExpr.hpp"
+#include "ParenExpr.hpp"
 
 #endif // SCHEATLLNODES_HPP

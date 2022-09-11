@@ -108,6 +108,16 @@ public:
     ~scheatll_type_error() {};
 };
 
+class scheatll_callee_error : public scheatll_error
+{
+public:
+    scheatll_callee_error() {};
+    virtual const char* what() const noexcept override {
+        return "cannot call non-function value";
+    }
+    ~scheatll_callee_error() {};
+};
+
 class scheatll_return_error : public scheatll_error
 {
 public:
