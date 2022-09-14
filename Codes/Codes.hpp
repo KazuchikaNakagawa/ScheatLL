@@ -61,6 +61,8 @@ public:
 
     void verifyReturn(scheatll_type*);
 
+    scheatll_type* getExpectedReturnType() { return expectedReturnType; };
+
     ~Codes();
 };
 

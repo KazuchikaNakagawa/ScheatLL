@@ -74,6 +74,11 @@ std::string DeclareFuncExpr::Decode() {
     
     std::string result;
     // ex) int32(int32 argc, int8** argc) main
+    if (functionReturnType == nullptr)
+    {
+        functionReturnType = scheatll::Type(Void);
+    }
+    
     result += functionReturnType->typeName() + "(";
     int count = 0;
     for (auto &&tp : functionArgsType)
@@ -129,6 +134,16 @@ void DeclareFuncExpr::setArgNames(std::vector<std::string>& nms)
 }
 
 scheatll_type* DeclareFuncExpr::Type() {
+    if (functionReturnType == nullptr)
+    {
+        if (body->hasReturnValue())
+        {
+            functionReturnType = body->getExpectedReturnType();
+        }else{
+            functionReturnType = scheatll::Type(Void);
+        }
+    }
+    
     return scheatll::FuncType(functionReturnType, functionArgsType);
 }
 

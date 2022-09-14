@@ -17,6 +17,11 @@ String::String(const String &s)
 {
 }
 
+String::String(const std::string &s)
+: std::string(s)
+{
+}
+
 bool String::endsWith(String subs)
 {
     auto pos = this->find(subs);
@@ -53,4 +58,9 @@ String String::stripExtension()
         return *this;
     }
     return this->substr(0, pos);
+}
+
+String String::indexed()
+{
+    return *this + "." + std::to_string(Table[*this]++);
 }

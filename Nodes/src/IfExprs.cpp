@@ -48,12 +48,13 @@ llvm::Value *IfExpr::LLVMConvert()
     );
     auto EndBlock = llvm::BasicBlock::Create(
         ScheatllLLVMConverter->Context(),
-        "finally",
-        parent
+        "finally"//,
+        //parent
     );
     ScheatllLLVMConverter->Builder().CreateCondBr(Condition->LLVMEncode(), bb, EndBlock);
     ScheatllLLVMConverter->Builder().SetInsertPoint(bb);
     Then->ConvertAll();
+    parent->getBasicBlockList().push_back(EndBlock);
     ScheatllLLVMConverter->Builder().CreateBr(EndBlock);
     ScheatllLLVMConverter->Builder().SetInsertPoint(EndBlock);
     return nullptr;
@@ -90,11 +91,11 @@ llvm::Value *IfElseExpr::LLVMConvert()
         "else",
         parent
     );
-
+    
     auto EndBlock = llvm::BasicBlock::Create(
         ScheatllLLVMConverter->Context(),
-        "finally",
-        parent
+        "finally"//,
+        //parent
     );
     ScheatllLLVMConverter->Builder().CreateCondBr(Condition->LLVMEncode(), bbt, bbe);
     ScheatllLLVMConverter->Builder().SetInsertPoint(bbt);
@@ -102,9 +103,32 @@ llvm::Value *IfElseExpr::LLVMConvert()
     ScheatllLLVMConverter->Builder().CreateBr(EndBlock);
     ScheatllLLVMConverter->Builder().SetInsertPoint(bbe);
     Else->ConvertAll();
+    parent->getBasicBlockList().push_back(EndBlock);
     ScheatllLLVMConverter->Builder().CreateBr(EndBlock);
     ScheatllLLVMConverter->Builder().SetInsertPoint(EndBlock);
     return nullptr;
+    /*ScheatllLLVMConverter->Builder().CreateCondBr(Condition->LLVMEncode(), bbt, bbe);
+    ScheatllLLVMConverter->Builder().SetInsertPoint(bbt);
+    Then->ConvertAll();
+
+    ScheatllLLVMConverter->Builder().SetInsertPoint(bbe);
+    Else->ConvertAll();
+
+    auto EndBlock = llvm::BasicBlock::Create(
+        ScheatllLLVMConverter->Context(),
+        "finally",
+        parent
+    );
+
+    ScheatllLLVMConverter->Builder().SetInsertPoint(bbt);
+    ScheatllLLVMConverter->Builder().CreateBr(EndBlock);
+
+    ScheatllLLVMConverter->Builder().SetInsertPoint(bbe);
+    ScheatllLLVMConverter->Builder().CreateBr(EndBlock);
+
+    ScheatllLLVMConverter->Builder().SetInsertPoint(EndBlock);
+
+    return nullptr;*/
 }
 
 std::string IfElseExpr::Decode() 

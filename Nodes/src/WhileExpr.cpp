@@ -43,6 +43,7 @@ llvm::Value *WhileExpr::LLVMConvert()
         "finally",
         parent
     );
+    ScheatllLLVMConverter->Builder().CreateBr(bbw);
     ScheatllLLVMConverter->Builder().SetInsertPoint(bbw);
     ScheatllLLVMConverter->Builder().CreateCondBr(Condition->LLVMEncode(), bb, EndBlock);
     ScheatllLLVMConverter->Builder().SetInsertPoint(bb);

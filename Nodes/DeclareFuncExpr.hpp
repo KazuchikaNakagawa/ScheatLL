@@ -17,7 +17,7 @@ class DeclareFuncExpr : public Expr
 private:
 
     // holds return type.
-    scheatll_type* functionReturnType;
+    scheatll_type* functionReturnType = nullptr;
 
     // holds argument types.
     std::vector<scheatll_type*> functionArgsType;
