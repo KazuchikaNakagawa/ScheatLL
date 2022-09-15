@@ -11,6 +11,9 @@ int main(int argc, char const *argv[])
     MakeFunction(Type(Void), "print from(Int)", {Type(Int32)}, {"d"}, FunctionAttribute());
         CallVoid(ID("printf"), {Constant("%d"), ID("d")});
     End();
+    MakeFunction(Type(Void), "print from(Double)", {Type(Int32)}, {"d"}, FunctionAttribute());
+        CallVoid(ID("printf"), {Constant("%llf"), ID("d")});
+    End();
     exec->ConvertToLLVMIR();
     exec->LLVMDump();
     exec->ExportObjectFile();

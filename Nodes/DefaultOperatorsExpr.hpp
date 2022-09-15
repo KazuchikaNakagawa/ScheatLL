@@ -35,6 +35,34 @@ public:
     ~IntIntInfixPrimaryOperatorExpr();
 };
 
+class DoubleDoubleInfixOperatorExpr : public Expr
+{
+    protected:
+    Expr *lhs;
+    std::string operatorSymbol;
+    Expr *rhs;
+    llvm::Value *LLVMConvert() override;
+    public:
+    DoubleDoubleInfixOperatorExpr(Expr *, std::string, Expr *, scheat::SourceLocation);
+    scheatll_type* Type() override;
+    std::string Decode() override;
+    ~DoubleDoubleInfixOperatorExpr();
+};
+
+class DoubleDoubleInfixPrimaryOperatorExpr : public PrimaryExpr
+{
+    protected:
+    Expr *lhs;
+    std::string operatorSymbol;
+    Expr *rhs;
+    llvm::Value *LLVMConvert() override;
+    public:
+    DoubleDoubleInfixPrimaryOperatorExpr(PrimaryExpr *, std::string, PrimaryExpr *, scheat::SourceLocation);
+    scheatll_type* Type() override;
+    std::string Decode() override;
+    ~DoubleDoubleInfixPrimaryOperatorExpr();
+};
+
 } // namespace scheatll
 
 

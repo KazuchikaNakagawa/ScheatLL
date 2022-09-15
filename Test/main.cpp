@@ -8,7 +8,7 @@ int main() {
 
     
     // ------------------
-    MakeGlobalVar(nullptr, "undefinedTypeVar", Attribute());
+    MakeGlobalVar(nullptr, "undefinedTypeVar", Attribute(readable, unwritable));
     External(Type(Void), "exit", {Type(Int32)});
     MakeFunction(Type(Void), "abcde", {Type(Int32)}, {"dd"}, FunctionAttribute());
     If(Constant(true));

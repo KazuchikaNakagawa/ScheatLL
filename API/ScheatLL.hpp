@@ -73,6 +73,9 @@ extern Term* Constant(bool, scheat::SourceLocation l = scheat::OutOfFile());
 // and new Assign can convert values and assign. 
 extern void Assign(Expr *, Expr *, scheat::SourceLocation l = scheat::OutOfFile());
 
+// it is the first and last assign for constant values
+extern void ConstAssign(Expr *, Expr *, scheat::SourceLocation l = scheat::OutOfFile());
+
 // --defined
 // it checks readability.
 // it may throw two kinds of errors.

@@ -142,6 +142,35 @@ extern void scheatll::Assign(Expr *ptr, Expr *val, scheat::SourceLocation l)
     EditingTarget->InsertIR(inst);
 }
 
+void scheatll::ConstAssign(Expr *ptr, Expr *val, scheat::SourceLocation l)
+{
+    if (ptr->Type() == nullptr)
+    {
+        auto _ptr = dynamic_cast<ReferenceExpr*>(ptr)->getSrc();
+        // type-undefined value
+        auto nptr1 = dynamic_cast<LocalAllocExpr*>(_ptr);
+        if (nptr1 != nullptr)
+        {
+            nptr1->setType(val->Type());
+        }else{
+        auto nptr2 = dynamic_cast<GlobalAllocExpr*>(_ptr);
+        if (nptr2 != nullptr)
+        {
+            nptr2->setType(val->Type());
+        }
+        
+        }
+    }
+    
+    if (val->Type()->getPointerTo() != ptr->Type())
+    {
+        throw scheatll_type_error();
+    }
+
+    auto inst = new AssignExpr(ptr, val, l);
+    EditingTarget->InsertIR(inst);
+}
+
 Term* scheatll::ID(std::string id, scheat::SourceLocation l)
 {
     auto iter = EditingTarget->globals.find(id);
@@ -243,6 +272,23 @@ Expr* scheatll::Operate(Expr *L, std::string O, Expr *R, scheat::SourceLocation 
         
         return new IntIntInfixOperatorExpr(L, O, R, l);
     }
+    // Double-Double Optimization
+    if (L->Type() == Type(Double) && R->Type() == Type(Double))
+    {
+        if (
+            O != "+" 
+            && O != "-" 
+            && O != "<"
+            && O != ">"
+            && O != "<="
+            && O != ">="
+            && O != "==")
+        {
+            throw scheatll_operator_not_exist_error();
+        }
+        
+        return new DoubleDoubleInfixOperatorExpr(L, O, R, l);
+    }
     auto oper = L->Type()->FindOperator(O);
     if (oper == nullptr)
     {
@@ -274,6 +320,15 @@ PrimaryExpr* scheatll::Operate(PrimaryExpr *L, std::string O, PrimaryExpr *R, sc
         }
 
         return new IntIntInfixPrimaryOperatorExpr(L, O, R, l);
+    }
+    if (L->Type() == Type(Double) && R->Type() == Type(Double))
+    {
+        if (O != "*" && O != "/")
+        {
+            throw scheatll_operator_not_exist_error();
+        }
+
+        return new DoubleDoubleInfixPrimaryOperatorExpr(L, O, R, l);
     }
     throw scheatll_unavailable_feature_error();
     return nullptr;

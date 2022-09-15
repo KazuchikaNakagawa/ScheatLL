@@ -18,6 +18,9 @@ public:
     std::string Decode() override;
     scheatll_type* Type() override;
     Expr* getSrc() { return src; };
+    scheatll_attribute getAttribute() override{
+        return src->getAttribute();
+    }
     ~ReferenceExpr();
 };
 
