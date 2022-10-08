@@ -14,13 +14,13 @@ class Type;
 } // namespace llvm
 
 
-using namespace scheatll;
+using namespace scheat;
 
 DeclareFuncExpr::DeclareFuncExpr(
     std::string nm, 
-    scheatll_type* rtp, 
-    std::vector<scheatll_type*> argtps, 
-    scheatll_attribute attr,
+    scheat_type* rtp, 
+    std::vector<scheat_type*> argtps, 
+    scheat_attribute attr,
     scheat::SourceLocation l)
 : attribute(attr), Expr(l)
 {
@@ -29,7 +29,7 @@ DeclareFuncExpr::DeclareFuncExpr(
     functionArgsType = argtps;
     if (attr.is_writable())
     {
-        throw scheatll_attribute_error();
+        throw scheat_attribute_error();
     }
     body = new Codes(nm, rtp);
 }
@@ -39,10 +39,15 @@ DeclareFuncExpr::~DeclareFuncExpr()
 }
 
 llvm::Value* DeclareFuncExpr::LLVMConvert(){
-    if ((!body->hasReturnValue() 
-    && functionReturnType != scheatll::Type(Void)))
+    if (functionReturnType == nullptr && !body->hasReturnValue())
     {
-        throw scheatll_return_error();
+        functionReturnType = scheat::Type(Void);
+    }
+    
+    if ((!body->hasReturnValue() 
+    && functionReturnType != scheat::Type(Void)))
+    {
+        throw scheat_return_error();
     }
     
     std::vector<llvm::Type *> ltps;
@@ -58,10 +63,17 @@ llvm::Value* DeclareFuncExpr::LLVMConvert(){
         ScheatllLLVMConverter->Context(), 
         "entry", 
         F);
+    
+    EditingTarget->insertPoint.StartEditing(body);
+    if (functionReturnType == scheat::Type(Void))
+        body->Exit();
+    EditingTarget->insertPoint.PauseEditing();
+    auto InsertP = ScheatllLLVMConverter->Builder().GetInsertBlock();
     ScheatllLLVMConverter->Builder().SetInsertPoint(BB);
     body->ConvertAll();
-    if (functionReturnType == scheatll::Type(Void))
+    if (functionReturnType == scheat::Type(Void))
         ScheatllLLVMConverter->Builder().CreateRetVoid();
+    ScheatllLLVMConverter->Builder().SetInsertPoint(InsertP);
     llvm::verifyFunction(*F);
     return F;
 }
@@ -71,12 +83,15 @@ std::string DeclareFuncExpr::Decode() {
     {
         return functionName;
     }
+
+    // TODO: improve this feature
+    return functionName;
     
     std::string result;
     // ex) int32(int32 argc, int8** argc) main
     if (functionReturnType == nullptr)
     {
-        functionReturnType = scheatll::Type(Void);
+        functionReturnType = scheat::Type(Void);
     }
     
     result += functionReturnType->typeName() + "(";
@@ -133,20 +148,20 @@ void DeclareFuncExpr::setArgNames(std::vector<std::string>& nms)
     
 }
 
-scheatll_type* DeclareFuncExpr::Type() {
+scheat_type* DeclareFuncExpr::Type() {
     if (functionReturnType == nullptr)
     {
         if (body->hasReturnValue())
         {
             functionReturnType = body->getExpectedReturnType();
         }else{
-            functionReturnType = scheatll::Type(Void);
+            functionReturnType = scheat::Type(Void);
         }
     }
     
-    return scheatll::FuncType(functionReturnType, functionArgsType);
+    return scheat::FuncType(functionReturnType, functionArgsType);
 }
 
-void DeclareFuncExpr::setReturnType(scheatll_type *tp){
+void DeclareFuncExpr::setReturnType(scheat_type *tp){
     functionReturnType = tp;
 }

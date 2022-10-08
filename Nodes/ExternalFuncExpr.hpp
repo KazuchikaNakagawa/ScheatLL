@@ -4,26 +4,26 @@
 #include "BasicNodes.hpp"
 #include <vector>
 
-namespace scheatll
+namespace scheat
 {
 
 class ExternalFuncExpr : public Expr
 {
 private:
-    scheatll_type* Return_Type;
+    scheat_type* Return_Type;
     std::string Name;
-    std::vector<scheatll_type*> ArgTypes;
+    std::vector<scheat_type*> ArgTypes;
     bool isVarArg;
 protected:
     llvm::Value *LLVMConvert() override;
 public:
-    ExternalFuncExpr(scheatll_type*, std::string, std::vector<scheatll_type*>, bool, scheat::SourceLocation);
-    scheatll_type* Type() override;
+    ExternalFuncExpr(scheat_type*, std::string, std::vector<scheat_type*>, bool, scheat::SourceLocation);
+    scheat_type* Type() override;
     std::string Decode() override;
     ~ExternalFuncExpr();
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATEXTERNALFUNCEXPR_HPP

@@ -1,6 +1,6 @@
-#include "../API/ScheatLL.hpp"
+#include "../ScheatLL/ScheatLL.hpp"
 
-using namespace scheatll;
+using namespace scheat;
 
 int main() {
     ScheatLLExec *exec = new ScheatLLExec("test");
@@ -8,15 +8,12 @@ int main() {
 
     
     // ------------------
-    MakeGlobalVar(nullptr, "undefinedTypeVar", Attribute(readable, unwritable));
-    External(Type(Void), "exit", {Type(Int32)});
-    MakeFunction(Type(Void), "abcde", {Type(Int32)}, {"dd"}, FunctionAttribute());
-    If(Constant(true));
-        Assign(ID("undefinedTypeVar"), Constant(50));
-    End();
-    End();
-    CallVoid(ID("abcde"), {});
-    Assign(ID("undefinedTypeVar"), Constant(50));
+    MakeStruct("teststring");
+    AddMember("teststring", "src", PointerType(Type(Int8)));
+    AddMember("teststring", "length", Type(Int32));
+    MakeGlobalVar(Type("teststring"), "a", Attribute());
+    MakeVar(nullptr, "aptr", Attribute());
+    Assign(ID("aptr"), Read(ID("a")->AccessTo("length")));
     exec->ConvertToLLVMIR();
     exec->LLVMDump();
     printf("\n\n\n\n\n\n\n\n");

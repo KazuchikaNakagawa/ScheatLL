@@ -1,7 +1,7 @@
 #if !defined(SCLLDEFAULTTYPES_H)
 #define SCLLDEFAULTTYPES_H
 
-namespace scheatll
+namespace scheat
 {
 
 enum DefaultType {
@@ -14,12 +14,14 @@ enum DefaultType {
 
     Pointer,
     FunctionType,
+
+    StructType,
     
     // NotDefaultType -- used for representing classes, structures
     NotDefaultType
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCLLDEFAULTTYPES_H

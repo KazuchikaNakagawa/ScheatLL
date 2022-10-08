@@ -1,5 +1,5 @@
 #include "../ReferenceExpr.hpp"
-using namespace scheatll;
+using namespace scheat;
 
 
 ReferenceExpr::ReferenceExpr(Expr *ptr, scheat::SourceLocation l)
@@ -21,7 +21,7 @@ std::string ReferenceExpr::Decode()
     return src->Decode();
 }
 
-scheatll_type* ReferenceExpr::Type()
+scheat_type* ReferenceExpr::Type()
 {
     return src->Type();
 }

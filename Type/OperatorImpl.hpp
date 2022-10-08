@@ -4,10 +4,14 @@
 #include <map>
 #include <string>
 
-namespace scheatll
+namespace scheat
 {
 
-class scheatll_type;
+// How to parse operator Expression in Scheat
+// class has a operator table given by OperatorImpl
+// Scheat call ScheatLL.Call Function by $RhsTypeName.$OperatorSymbol from(RhsType, LhsType)
+
+class scheat_type;
 class DeclareFuncExpr;
 
 enum OperatorPosition
@@ -29,7 +33,8 @@ class Operator
 public:
     OperatorPosition Position;
     OperatorPrecedence Precedence;
-    std::string LinkedFunctionID = "";
+    // no longer used. legacy system
+    // std::string LinkedFunctionID = "";
 };
 
 // feature of managing operators.
@@ -50,7 +55,7 @@ public:
     ~OperatorImpl();
 };
     
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATOPERATORIMPL

@@ -2,8 +2,8 @@
 #include "../../Global/Globals.hpp"
 #include "../../LLVMConverter/LLVMConverter.hpp"
 #include "../../Error/ScheatLLError.hpp"
-#include "../../API/ScheatLL.hpp"
-using namespace scheatll;
+#include "../../ScheatLL/ScheatLL.hpp"
+using namespace scheat;
 
 IntIntInfixOperatorExpr::IntIntInfixOperatorExpr(Expr *l, std::string o, Expr *r, scheat::SourceLocation loc)
 : Expr(loc)
@@ -63,52 +63,52 @@ llvm::Value *IntIntInfixOperatorExpr::LLVMConvert()
     
     else
     {
-        throw scheatll_operator_not_exist_error();
+        throw scheat_operator_not_exist_error();
     }
 }
 
-scheatll_type* IntIntInfixOperatorExpr::Type()
+scheat_type* IntIntInfixOperatorExpr::Type()
 {
     if (operatorSymbol == "+")
     {
-        return scheatll::Type(Int32);
+        return scheat::Type(Int32);
     }
 
     else if (operatorSymbol == "-")
     {
-        return scheatll::Type(Int32);
+        return scheat::Type(Int32);
     }
 
     else if (operatorSymbol == ">")
     {
-        return scheatll::Type(Int1);
+        return scheat::Type(Int1);
     }
     
     else if (operatorSymbol == "<")
     {
-        return scheatll::Type(Int1);
+        return scheat::Type(Int1);
     }
     
     else if (operatorSymbol == ">=")
     {
-        return scheatll::Type(Int1);
+        return scheat::Type(Int1);
     }
     
     else if (operatorSymbol == "<=")
     {
-        return scheatll::Type(Int1);
+        return scheat::Type(Int1);
     }
 
     else if (operatorSymbol == "==")
     {
-        return scheatll::Type(Int1);
+        return scheat::Type(Int1);
     }
 
     else if (operatorSymbol == "!=")
     {
-        return scheatll::Type(Int1);
+        return scheat::Type(Int1);
     }
-    return scheatll::Type(Int32);
+    return scheat::Type(Int32);
 }
 
 std::string IntIntInfixOperatorExpr::Decode()
@@ -146,7 +146,7 @@ llvm::Value *IntIntInfixPrimaryOperatorExpr::LLVMConvert()
 
     else
     {
-        throw scheatll_operator_not_exist_error();
+        throw scheat_operator_not_exist_error();
     }
 }
 
@@ -155,13 +155,13 @@ std::string IntIntInfixPrimaryOperatorExpr::Decode()
     return lhs->Decode() + " " + operatorSymbol + " " + rhs->Decode();
 }
 
-scheatll_type* IntIntInfixPrimaryOperatorExpr::Type()
+scheat_type* IntIntInfixPrimaryOperatorExpr::Type()
 {
     if (operatorSymbol == "/")
     {
-        return scheatll::Type(Double);
+        return scheat::Type(Double);
     }
-    return scheatll::Type(Int32);
+    return scheat::Type(Int32);
 }
 
 DoubleDoubleInfixOperatorExpr::DoubleDoubleInfixOperatorExpr(Expr *l, std::string o, Expr *r, scheat::SourceLocation loc)
@@ -181,38 +181,38 @@ std::string DoubleDoubleInfixOperatorExpr::Decode()
     return lhs->Decode() + " " + operatorSymbol + " " + rhs->Decode();
 }
 
-scheatll_type* DoubleDoubleInfixOperatorExpr::Type()
+scheat_type* DoubleDoubleInfixOperatorExpr::Type()
 {
     if (operatorSymbol == ">")
     {
-        return scheatll::Type(Int1);
+        return scheat::Type(Int1);
     }
     
     else if (operatorSymbol == "<")
     {
-        return scheatll::Type(Int1);
+        return scheat::Type(Int1);
     }
     
     else if (operatorSymbol == ">=")
     {
-        return scheatll::Type(Int1);
+        return scheat::Type(Int1);
     }
     
     else if (operatorSymbol == "<=")
     {
-        return scheatll::Type(Int1);
+        return scheat::Type(Int1);
     }
 
     else if (operatorSymbol == "==")
     {
-        return scheatll::Type(Int1);
+        return scheat::Type(Int1);
     }
 
     else if (operatorSymbol == "!=")
     {
-        return scheatll::Type(Int1);
+        return scheat::Type(Int1);
     }
-    return scheatll::Type(Double);
+    return scheat::Type(Double);
 }
 
 llvm::Value *DoubleDoubleInfixOperatorExpr::LLVMConvert()
@@ -261,7 +261,7 @@ llvm::Value *DoubleDoubleInfixOperatorExpr::LLVMConvert()
     
     else
     {
-        throw scheatll_operator_not_exist_error();
+        throw scheat_operator_not_exist_error();
     }
 }
 
@@ -300,11 +300,11 @@ llvm::Value *DoubleDoubleInfixPrimaryOperatorExpr::LLVMConvert()
 
     else
     {
-        throw scheatll_operator_not_exist_error();
+        throw scheat_operator_not_exist_error();
     }
 }
 
-scheatll_type* DoubleDoubleInfixPrimaryOperatorExpr::Type()
+scheat_type* DoubleDoubleInfixPrimaryOperatorExpr::Type()
 {
-    return scheatll::Type(Double);
+    return scheat::Type(Double);
 }

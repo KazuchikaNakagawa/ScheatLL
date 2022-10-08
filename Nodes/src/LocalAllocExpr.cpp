@@ -1,19 +1,22 @@
 #include "../LocalAllocExpr.hpp"
 #include "../../Global/Globals.hpp"
 #include "../../LLVMConverter/LLVMConverter.hpp"
+#include "../../Exec/ScheatLLExec.hpp"
 #include "../../Type/ScheatLLType.hpp"
-using namespace scheatll;
+#include "../../ScheatLL/ScheatLL.hpp"
+#include "../Nodes.hpp"
+using namespace scheat;
 
 llvm::Value* LocalAllocExpr::LLVMConvert(){
     auto ltype = variableType->LLVMType();
     return ScheatllLLVMConverter->Builder().CreateAlloca(ltype, nullptr, variableName);
 }
 
-LocalAllocExpr::LocalAllocExpr(std::string nm, scheatll_type* tp, scheatll_attribute attr, scheat::SourceLocation l)
+LocalAllocExpr::LocalAllocExpr(std::string nm, scheat_type* tp, scheat_attribute attr, scheat::SourceLocation l)
 : attribute(attr), Expr(l)
 {
     variableName = nm;
-    variableType = tp;
+    if (tp != nullptr) setType(tp);
 }
 
 LocalAllocExpr::~LocalAllocExpr()
@@ -29,7 +32,7 @@ std::string LocalAllocExpr::Decode() {
     }
 }
 
-scheatll_type* LocalAllocExpr::Type()
+scheat_type* LocalAllocExpr::Type()
 {
     if (variableType == nullptr)
     {
@@ -39,7 +42,11 @@ scheatll_type* LocalAllocExpr::Type()
     return variableType->getPointerTo();
 }
 
-void LocalAllocExpr::setType(scheatll_type *tp)
+void LocalAllocExpr::setType(scheat_type *tp)
 {
     variableType = tp;
+    if (tp->isInManaged())
+    {
+        CallVoid(tp->getInitializer(), {this});
+    }
 }

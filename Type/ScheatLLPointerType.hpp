@@ -3,22 +3,23 @@
 
 #include "ScheatLLType.hpp"
 
-namespace scheatll
+namespace scheat
 {
 
-class scheatll_poiner_type : public scheatll_type
+class scheat_poiner_type : public scheat_type
 {
 private:
-    scheatll_type* elementType;
+    scheat_type* elementType;
 public:
-    scheatll_poiner_type(scheatll_type*);
+    scheat_poiner_type(scheat_type*);
     llvm::Type *LLVMType() override;
     std::string typeName() override;
-    scheatll_type* getElementType() override { return elementType; };
-    ~scheatll_poiner_type();
+    scheat_type* getElementType() override { return elementType; };
+    Term* SizeOf() override;
+    ~scheat_poiner_type();
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATLLPOINTERTYPE_HPP

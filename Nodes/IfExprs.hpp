@@ -3,7 +3,7 @@
 
 #include "BasicNodes.hpp"
 
-namespace scheatll
+namespace scheat
 {
 
 class Codes;
@@ -30,7 +30,7 @@ protected:
 public:
     IfExpr(Expr *, Codes *);
     std::string Decode() override;
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     ~IfExpr();
 };
 
@@ -44,11 +44,11 @@ protected:
 public:
     IfElseExpr(Expr *, Codes *, Codes *);
     std::string Decode() override;
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     ~IfElseExpr();
 };
 
 
-} // namespace scheatll
+} // namespace scheat
 
 #endif // SCHEATIFEXPR_HPP

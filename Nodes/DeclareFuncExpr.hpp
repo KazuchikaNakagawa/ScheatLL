@@ -6,10 +6,10 @@
 #include <string>
 #include <vector>
 
-namespace scheatll
+namespace scheat
 {
 
-class scheatll_type;
+class scheat_type;
 class Codes;
 
 class DeclareFuncExpr : public Expr
@@ -17,24 +17,24 @@ class DeclareFuncExpr : public Expr
 private:
 
     // holds return type.
-    scheatll_type* functionReturnType = nullptr;
+    scheat_type* functionReturnType = nullptr;
 
     // holds argument types.
-    std::vector<scheatll_type*> functionArgsType;
+    std::vector<scheat_type*> functionArgsType;
     std::vector<std::string> functionArgNames;
 
     // the name of function
     std::string functionName;
 
     // attribute.
-    scheatll_attribute attribute;
+    scheat_attribute attribute;
 
     bool defined = false;
 
 protected:
     llvm::Value *LLVMConvert() override;
 public:
-    DeclareFuncExpr(std::string, scheatll_type*, std::vector<scheatll_type*>, scheatll_attribute, scheat::SourceLocation);
+    DeclareFuncExpr(std::string, scheat_type*, std::vector<scheat_type*>, scheat_attribute, scheat::SourceLocation);
     Codes *body;
 
     // if the argument vector's size doesn't adjust to the number of arguments,
@@ -42,12 +42,12 @@ public:
     void setArgNames(std::vector<std::string>&);
 
     // changes return type.
-    void setReturnType(scheatll_type *);
+    void setReturnType(scheat_type *);
 
     std::string Decode() override;
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
 
-    scheatll_attribute getAttribute() override
+    scheat_attribute getAttribute() override
     {
         return attribute;
     }
@@ -56,7 +56,7 @@ public:
 };
 
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATDECLAREFUNCEXPR_HPP

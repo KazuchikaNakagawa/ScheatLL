@@ -3,7 +3,7 @@
 
 #include "BasicNodes.hpp"
 
-namespace scheatll
+namespace scheat
 {
 
 class ReturnExpr : public Expr
@@ -15,12 +15,12 @@ protected:
 public:
     ReturnExpr(Expr *, scheat::SourceLocation);
     std::string Decode() override;
-    scheatll_type* Type() override;
-    scheatll_attribute getAttribute() override;
+    scheat_type* Type() override;
+    scheat_attribute getAttribute() override;
     ~ReturnExpr();
 };
 
 
-} // namespace scheatll
+} // namespace scheat
 
 #endif // SCHEATEXPR_HPP

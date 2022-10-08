@@ -3,7 +3,7 @@
 
 #include "BasicNodes.hpp"
 
-namespace scheatll {
+namespace scheat {
 
 class ConstantInt32Expr : public Term
 {
@@ -13,7 +13,7 @@ protected:
     llvm::Value *LLVMConvert() override;
 public:
     ConstantInt32Expr(int, scheat::SourceLocation);
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     std::string Decode() override;
     ~ConstantInt32Expr();
 };
@@ -26,7 +26,7 @@ protected:
     llvm::Value *LLVMConvert() override;
 public:
     ConstantDoubleExpr(double, scheat::SourceLocation);
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     std::string Decode() override;
     ~ConstantDoubleExpr();
 };
@@ -39,7 +39,7 @@ protected:
     llvm::Value *LLVMConvert() override;
 public:
     ConstantRawStringExpr(const char *, scheat::SourceLocation);
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     std::string Decode() override;
     ~ConstantRawStringExpr();
 };
@@ -52,9 +52,23 @@ protected:
     llvm::Value *LLVMConvert() override;
 public:
     ConstantBoolExpr(bool, scheat::SourceLocation);
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     std::string Decode() override;
     ~ConstantBoolExpr();
+};
+
+class ConstantExprNil : public Term
+{
+private:
+    // elementType
+    scheat_type* type;
+protected:
+    llvm::Value *LLVMConvert() override;
+public:
+    ConstantExprNil(scheat_type*, scheat::SourceLocation);
+    scheat_type* Type() override;
+    std::string Decode() override;
+    ~ConstantExprNil();
 };
 
 }

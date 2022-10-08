@@ -8,10 +8,12 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -DDEBUG -g")
 
 # libScheatll
 add_library(Scheatll STATIC
-./API/ScheatLL.cpp
+./ScheatLL/ScheatLL.cpp
 ./Attribute/ScLLAttribute.cpp
 ./Codes/Codes.cpp
 ./Exec/ScheatLLExec.cpp
+./Exec/Implements/IndentManagerImpl.cpp
+./Exec/Implements/StructManagerImpl.cpp
 ./Global/Globals.cpp
 ./InsertPoint/InsertPoint.cpp
 ./LLVMConverter/LLVMConverter.cpp
@@ -31,11 +33,14 @@ add_library(Scheatll STATIC
 ./Nodes/src/CallExpr.cpp
 ./Nodes/src/ParenExpr.cpp
 ./Nodes/src/ExternalFuncExpr.cpp
+./Nodes/src/GetElementExpr.cpp
 ./Type/ScheatLLPointerType.cpp
 ./Type/ScheatLLType.cpp
 ./Type/ScLLType.cpp
 ./Type/ScheatFuncType.cpp
 ./Type/OperatorImpl.cpp
+./Type/MemberImpl.cpp
+./Type/ScheatStruct.cpp
 ./SourceLocation/SourceLocation.cpp
 ./String/String.cpp
 )

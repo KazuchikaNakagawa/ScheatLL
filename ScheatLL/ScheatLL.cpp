@@ -10,35 +10,34 @@
 #include <typeinfo>
 
 
-using namespace scheatll;
+using namespace scheat;
 
-void scheatll::MakeGlobalVar(scheatll_type* tp, std::string nm, scheatll_attribute attr, scheat::SourceLocation l) {
+void scheat::MakeGlobalVar(scheat_type* tp, std::string nm, scheat_attribute attr, scheat::SourceLocation l) {
     auto iter = EditingTarget->globals.find(nm);
     if (iter != EditingTarget->globals.end())
     {
-        throw scheatll_name_already_defined_error();
+        throw scheat_name_already_defined_error();
         return;
     }
 
     auto inst = new GlobalAllocExpr(nm, tp, attr, l);
     EditingTarget->globals[nm] = inst;
     EditingTarget->VerifyGlobalVariables(inst);
-
     return;
 }
 
-void scheatll::MakeVar(scheatll_type *tp, std::string nm, scheatll_attribute att, scheat::SourceLocation l)
+void scheat::MakeVar(scheat_type *tp, std::string nm, scheat_attribute att, scheat::SourceLocation l)
 {
     auto iter = EditingTarget->globals.find(nm);
     if (iter != EditingTarget->globals.end())
     {
-        throw scheatll_name_already_defined_error();
+        throw scheat_name_already_defined_error();
         return;
     }
     auto localiter = EditingTarget->getInsertedPoint()->localVariables.find(nm);
     if (localiter != EditingTarget->getInsertedPoint()->localVariables.end())
     {
-        throw scheatll_name_already_defined_error();
+        throw scheat_name_already_defined_error();
         return;
     }
     
@@ -49,19 +48,19 @@ void scheatll::MakeVar(scheatll_type *tp, std::string nm, scheatll_attribute att
     return;
 };
 
-void scheatll::MakeFunction(
-    scheatll_type *tp, 
+void scheat::MakeFunction(
+    scheat_type *tp, 
     std::string nm, 
-    std::vector<scheatll_type *> tps, 
+    std::vector<scheat_type *> tps, 
     std::vector<std::string> nms, 
-    scheatll_attribute att,
+    scheat_attribute att,
     scheat::SourceLocation l
 )
 {
     auto iter = EditingTarget->globals.find(nm);
     if (iter != EditingTarget->globals.end())
     {
-        throw scheatll_name_already_defined_error();
+        throw scheat_name_already_defined_error();
         return;
     }
     auto inst = new DeclareFuncExpr(nm, tp, tps, att, l);
@@ -72,31 +71,31 @@ void scheatll::MakeFunction(
     return;
 }
 
-Term* scheatll::Constant(int i, scheat::SourceLocation l) {
+Term* scheat::Constant(int i, scheat::SourceLocation l) {
     return new ConstantInt32Expr(i, l);
 }
 
-Term* scheatll::Constant(const char *s, scheat::SourceLocation l) {
+Term* scheat::Constant(const char *s, scheat::SourceLocation l) {
     return new ConstantRawStringExpr(s, l);
 }
 
-Term* scheatll::Constant(double d, scheat::SourceLocation l) {
+Term* scheat::Constant(double d, scheat::SourceLocation l) {
     return new ConstantDoubleExpr(d, l);
 }
 
-Term* scheatll::Constant(bool b, scheat::SourceLocation l) {
+Term* scheat::Constant(bool b, scheat::SourceLocation l) {
     return new ConstantBoolExpr(b, l);
 }
 
-Term* scheatll::Read(Expr* val, scheat::SourceLocation l)
+Term* scheat::Read(Expr* val, scheat::SourceLocation l)
 {
     if (!val->getAttribute().is_readable())
     {
-        throw scheatll_readability_error();
+        throw scheat_readability_error();
     }
     if (val->Type()->isFunctionType())
     {
-        throw scheatll_value_error();
+        throw scheat_value_error();
     }
     
     if (!val->Type()->isPointerType())
@@ -108,7 +107,7 @@ Term* scheatll::Read(Expr* val, scheat::SourceLocation l)
     return new ReadExpr(val, l);
 }
 
-extern void scheatll::Assign(Expr *ptr, Expr *val, scheat::SourceLocation l)
+extern void scheat::Assign(Expr *ptr, Expr *val, scheat::SourceLocation l)
 {
     if (ptr->Type() == nullptr)
     {
@@ -130,19 +129,19 @@ extern void scheatll::Assign(Expr *ptr, Expr *val, scheat::SourceLocation l)
     
     if (val->Type()->getPointerTo() != ptr->Type())
     {
-        throw scheatll_type_error();
+        throw scheat_type_error();
     }
     
     if (!ptr->getAttribute().is_writable())
     {
-        throw scheatll_writability_error();
+        throw scheat_writability_error();
     }
     
     auto inst = new AssignExpr(ptr, val, l);
     EditingTarget->InsertIR(inst);
 }
 
-void scheatll::ConstAssign(Expr *ptr, Expr *val, scheat::SourceLocation l)
+void scheat::ConstAssign(Expr *ptr, Expr *val, scheat::SourceLocation l)
 {
     if (ptr->Type() == nullptr)
     {
@@ -164,14 +163,14 @@ void scheatll::ConstAssign(Expr *ptr, Expr *val, scheat::SourceLocation l)
     
     if (val->Type()->getPointerTo() != ptr->Type())
     {
-        throw scheatll_type_error();
+        throw scheat_type_error();
     }
 
     auto inst = new AssignExpr(ptr, val, l);
     EditingTarget->InsertIR(inst);
 }
 
-Term* scheatll::ID(std::string id, scheat::SourceLocation l)
+Term* scheat::ID(std::string id, scheat::SourceLocation l)
 {
     auto iter = EditingTarget->globals.find(id);
     if (iter != EditingTarget->globals.end())
@@ -186,23 +185,29 @@ Term* scheatll::ID(std::string id, scheat::SourceLocation l)
         return new ReferenceExpr(var, l);
     }
     
-    throw scheatll_name_not_exist_error();
+    throw scheat_name_not_exist_error();
 }
 
-void scheatll::End()
+void scheat::End()
 {
+    if (EditingTarget->getInsertedPoint()->hasReturnValue())
+    {
+        EditingTarget->insertPoint.PauseEditing();
+        return;
+    }
+    
     EditingTarget->insertPoint.EndEditing();
 }
 
-void scheatll::If(Expr *cond)
+void scheat::If(Expr *cond)
 {
     if (cond == nullptr)
     {
-        throw scheatll_expected_value_error();
+        throw scheat_expected_value_error();
     }
     if (cond->Type() != Type(Int1))
     {
-        throw scheatll_expected_value_error();
+        throw scheat_expected_value_error();
     }
     auto thenCodes = new Codes("if");
     auto inst = new IfExpr(cond, thenCodes);
@@ -210,15 +215,15 @@ void scheatll::If(Expr *cond)
     EditingTarget->setInsertPoint(thenCodes);
 }
 
-void scheatll::IfElse(Expr *cond)
+void scheat::IfElse(Expr *cond)
 {
     if (cond == nullptr)
     {
-        throw scheatll_expected_value_error();
+        throw scheat_expected_value_error();
     }
     if (cond->Type() != Type(Int1))
     {
-        throw scheatll_expected_value_error();
+        throw scheat_expected_value_error();
     }
     
     auto thenCodes = new Codes("if", false);
@@ -229,15 +234,15 @@ void scheatll::IfElse(Expr *cond)
     EditingTarget->setInsertPoint(thenCodes);
 }
 
-void scheatll::While(Expr *cond)
+void scheat::While(Expr *cond)
 {
     if (cond == nullptr)
     {
-        throw scheatll_expected_value_error();
+        throw scheat_expected_value_error();
     }
     if (cond->Type() != Type(Int1))
     {
-        throw scheatll_expected_value_error();
+        throw scheat_expected_value_error();
     }
     auto bodyCodes = new Codes("while.body", false);
     auto inst = new WhileExpr(cond, bodyCodes);
@@ -245,15 +250,15 @@ void scheatll::While(Expr *cond)
     EditingTarget->setInsertPoint(bodyCodes);
 }
 
-void scheatll::Return(Expr *val, scheat::SourceLocation l)
+void scheat::Return(Expr *val, scheat::SourceLocation l)
 {
     EditingTarget->getInsertedPoint()->verifyReturn(val->Type());
     auto inst = new ReturnExpr(val, l);
-    EditingTarget->InsertIR(inst);
     EditingTarget->getInsertedPoint()->Exit();
+    EditingTarget->InsertIR(inst);
 }
 
-Expr* scheatll::Operate(Expr *L, std::string O, Expr *R, scheat::SourceLocation l)
+Expr* scheat::Operate(Expr *L, std::string O, Expr *R, scheat::SourceLocation l)
 {
     // Int-Int-Optimization
     if (L->Type() == Type(Int32) && R->Type() == Type(Int32))
@@ -267,7 +272,7 @@ Expr* scheatll::Operate(Expr *L, std::string O, Expr *R, scheat::SourceLocation 
             && O != ">="
             && O != "==")
         {
-            throw scheatll_operator_not_exist_error();
+            throw scheat_operator_not_exist_error();
         }
         
         return new IntIntInfixOperatorExpr(L, O, R, l);
@@ -284,7 +289,7 @@ Expr* scheatll::Operate(Expr *L, std::string O, Expr *R, scheat::SourceLocation 
             && O != ">="
             && O != "==")
         {
-            throw scheatll_operator_not_exist_error();
+            throw scheat_operator_not_exist_error();
         }
         
         return new DoubleDoubleInfixOperatorExpr(L, O, R, l);
@@ -292,31 +297,31 @@ Expr* scheatll::Operate(Expr *L, std::string O, Expr *R, scheat::SourceLocation 
     auto oper = L->Type()->FindOperator(O);
     if (oper == nullptr)
     {
-        throw scheatll_operator_not_exist_error();
+        throw scheat_operator_not_exist_error();
     }
 
     if (oper->Position != Infix)
     {
-        throw scheatll_operator_not_exist_error();
+        throw scheat_operator_not_exist_error();
     }
 
     if (oper->Precedence != Normal)
     {
-        throw scheatll_operator_not_exist_error();
+        throw scheat_operator_not_exist_error();
     }
     
     // TODO: call linked function
-    throw scheatll_unavailable_feature_error();
+    throw scheat_unavailable_feature_error();
     return nullptr;
 }
 
-PrimaryExpr* scheatll::Operate(PrimaryExpr *L, std::string O, PrimaryExpr *R, scheat::SourceLocation l)
+PrimaryExpr* scheat::Operate(PrimaryExpr *L, std::string O, PrimaryExpr *R, scheat::SourceLocation l)
 {
     if (L->Type() == Type(Int32) && R->Type() == Type(Int32))
     {
         if (O != "*" && O != "/")
         {
-            throw scheatll_operator_not_exist_error();
+            throw scheat_operator_not_exist_error();
         }
 
         return new IntIntInfixPrimaryOperatorExpr(L, O, R, l);
@@ -325,75 +330,75 @@ PrimaryExpr* scheatll::Operate(PrimaryExpr *L, std::string O, PrimaryExpr *R, sc
     {
         if (O != "*" && O != "/")
         {
-            throw scheatll_operator_not_exist_error();
+            throw scheat_operator_not_exist_error();
         }
 
         return new DoubleDoubleInfixPrimaryOperatorExpr(L, O, R, l);
     }
-    throw scheatll_unavailable_feature_error();
+    throw scheat_unavailable_feature_error();
     return nullptr;
 }
 
-Term* scheatll::Operate(Term *L, std::string O, Term *R, scheat::SourceLocation l)
+Term* scheat::Operate(Term *L, std::string O, Term *R, scheat::SourceLocation l)
 {
     // if (L->Type() == Type(Int32) && R->Type() == Type(Int32))
     // {
     //     if (O != "^")
     //     {
-    //         throw scheatll_operator_not_exist_error();
+    //         throw scheat_operator_not_exist_error();
     //     }
 
     //     return new IntIntInfixTermOperatorExpr(L, O, R, l);
     // }
-    throw scheatll_unavailable_feature_error();
+    throw scheat_unavailable_feature_error();
     return nullptr;
 }
 
-Expr* scheatll::Operate(std::string O, Expr *R, scheat::SourceLocation l)
+Expr* scheat::Operate(std::string O, Expr *R, scheat::SourceLocation l)
 {
-    throw scheatll_unavailable_feature_error();
+    throw scheat_unavailable_feature_error();
     return nullptr;
 }
 
-PrimaryExpr* scheatll::Operate(std::string O, PrimaryExpr *R, scheat::SourceLocation l)
+PrimaryExpr* scheat::Operate(std::string O, PrimaryExpr *R, scheat::SourceLocation l)
 {
-    throw scheatll_unavailable_feature_error();
+    throw scheat_unavailable_feature_error();
     return nullptr;
 }
 
-Term* scheatll::Operate(std::string O, Term *R, scheat::SourceLocation l)
+Term* scheat::Operate(std::string O, Term *R, scheat::SourceLocation l)
 {
-    throw scheatll_unavailable_feature_error();
+    throw scheat_unavailable_feature_error();
     return nullptr;
 }
 
-Expr* scheatll::Operate(Expr *L, std::string O, scheat::SourceLocation l)
+Expr* scheat::Operate(Expr *L, std::string O, scheat::SourceLocation l)
 {
-    throw scheatll_unavailable_feature_error();
+    throw scheat_unavailable_feature_error();
     return nullptr;
 }
 
-PrimaryExpr* scheatll::Operate(PrimaryExpr *L, std::string O, scheat::SourceLocation l)
+PrimaryExpr* scheat::Operate(PrimaryExpr *L, std::string O, scheat::SourceLocation l)
 {
-    throw scheatll_unavailable_feature_error();
+    throw scheat_unavailable_feature_error();
     return nullptr;
 }
 
-Term* scheatll::Operate(Term *L, std::string O, scheat::SourceLocation l)
+Term* scheat::Operate(Term *L, std::string O, scheat::SourceLocation l)
 {
-    throw scheatll_unavailable_feature_error();
+    throw scheat_unavailable_feature_error();
     return nullptr;
 }
 
-Term *scheatll::Call(Expr *f, std::vector<Expr *> as, scheat::SourceLocation l)
+Term *scheat::Call(Expr *f, std::vector<Expr *> as, scheat::SourceLocation l)
 {
     if (!f->Type()->isFunctionType())
     {
-        throw scheatll_value_error();
+        throw scheat_value_error();
     }
     
     auto inst = new CallExpr(f, as, l);
-    if (inst->Type() == scheatll::Type(Void))
+    if (inst->Type() == scheat::Type(Void))
     {
         EditingTarget->InsertIR(inst);
     }
@@ -401,11 +406,11 @@ Term *scheatll::Call(Expr *f, std::vector<Expr *> as, scheat::SourceLocation l)
     return inst;
 }
 
-void scheatll::CallVoid(Expr *f, std::vector<Expr *> as, scheat::SourceLocation l)
+void scheat::CallVoid(Expr *f, std::vector<Expr *> as, scheat::SourceLocation l)
 {
     if (!f->Type()->isFunctionType())
     {
-        throw scheatll_value_error();
+        throw scheat_value_error();
     }
     // non-void function can be used
     // if (dynamic_cast<scheat_func_type*>(f->Type())->getReturnType() != Type(Void))
@@ -418,19 +423,40 @@ void scheatll::CallVoid(Expr *f, std::vector<Expr *> as, scheat::SourceLocation 
     EditingTarget->InsertIR(inst);
 }
 
-Term* scheatll::Paren(Expr* expr, scheat::SourceLocation l)
+Term* scheat::Paren(Expr* expr, scheat::SourceLocation l)
 {
     return new ParenExpr(expr, l);
 }
 
-void scheatll::External(
-    scheatll_type* tp, 
+void scheat::External(
+    scheat_type* tp, 
     std::string nm, 
-    std::vector<scheatll_type *> ats, 
+    std::vector<scheat_type *> ats, 
     bool varArg,
     scheat::SourceLocation l)
 {
     auto inst = new ExternalFuncExpr(tp, nm, ats, varArg, l);
     EditingTarget->VerifyGlobalFunc(inst);
     EditingTarget->globals[nm] = inst;
+}
+
+void scheat::MakeStruct(std::string nm, scheat::SourceLocation l)
+{
+    EditingTarget->addStruct(nm, l);
+}
+
+void scheat::AddMember(std::string strName, std::string memName, scheat_type* tp, AccessAttribute aa)
+{
+    auto structure = EditingTarget->getStruct(strName);
+    structure->AddMember(memName, tp, aa);
+}
+
+void scheat::EndStruct(std::string nm)
+{
+    
+}
+
+Term* scheat::Nil(scheat_type* tp, scheat::SourceLocation l)
+{
+    return new ConstantExprNil(tp->getElementType(), l);
 }

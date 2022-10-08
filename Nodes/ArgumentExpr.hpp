@@ -2,8 +2,9 @@
 #define SCHEATARGUMENTEXPR_HPP
 
 #include "BasicNodes.hpp"
+#include "../Type/ScheatLLType.hpp"
 
-namespace scheatll
+namespace scheat
 {
 
 class DeclareFuncExpr;
@@ -12,24 +13,27 @@ class ArgumentExpr : public Expr
 {
 private:
     unsigned int index;
-    scheatll_type* type;
+    scheat_type* type;
     std::string name;
     DeclareFuncExpr *func;
 protected:
     llvm::Value *LLVMConvert() override;
 public:
-    ArgumentExpr(DeclareFuncExpr *, std::string, scheatll_type*, unsigned int);
+    ArgumentExpr(DeclareFuncExpr *, std::string, scheat_type*, unsigned int);
 
     // itsumono
     std::string Decode() override { return "@" + name; };
 
     // itsumono
-    scheatll_type* Type() override { return type; };
+    scheat_type* Type() override { 
+        if (name == "its") return type;
+        return type->getPointerTo(); 
+    };
 
     ~ArgumentExpr();
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATARGUMENTEXPR_HPP

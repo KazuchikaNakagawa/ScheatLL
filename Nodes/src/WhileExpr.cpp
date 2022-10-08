@@ -2,11 +2,11 @@
 #include "../../Codes/Codes.hpp"
 #include "../../Exec/ScheatLLExec.hpp"
 #include "../../Global/Globals.hpp"
-#include "../../API/ScheatLL.hpp"
+#include "../../ScheatLL/ScheatLL.hpp"
 #include "../../LLVMConverter/LLVMConverter.hpp"
 #include "../../Type/ScheatLLType.hpp"
 
-using namespace scheatll;
+using namespace scheat;
 
 
 WhileExpr::WhileExpr(Expr *c, Codes *bd)
@@ -20,9 +20,9 @@ WhileExpr::~WhileExpr()
 {
 }
 
-scheatll_type* WhileExpr::Type()
+scheat_type* WhileExpr::Type()
 {
-    return scheatll::Type(Void);
+    return scheat::Type(Void);
 }
 
 llvm::Value *WhileExpr::LLVMConvert()

@@ -3,9 +3,9 @@
 #include "../../Type/ScLLType.hpp"
 #include "../../Global/Globals.hpp"
 #include "../../LLVMConverter/LLVMConverter.hpp"
-using namespace scheatll;
+using namespace scheat;
 
-ExternalFuncExpr::ExternalFuncExpr(scheatll_type* tp, std::string nm, std::vector<scheatll_type*> args, bool va, scheat::SourceLocation l)
+ExternalFuncExpr::ExternalFuncExpr(scheat_type* tp, std::string nm, std::vector<scheat_type*> args, bool va, scheat::SourceLocation l)
 : Expr(l), Return_Type(tp), Name(nm), ArgTypes(args), isVarArg(va)
 {
 }
@@ -14,7 +14,7 @@ ExternalFuncExpr::~ExternalFuncExpr()
 {
 }
 
-scheatll_type* ExternalFuncExpr::Type()
+scheat_type* ExternalFuncExpr::Type()
 {
     return FuncType(Return_Type, ArgTypes);
 }

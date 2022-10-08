@@ -4,7 +4,7 @@
 #include "BasicNodes.hpp"
 #include <vector>
 
-namespace scheatll
+namespace scheat
 {
 
 class DeclareFuncExpr;
@@ -18,12 +18,12 @@ protected:
 public:
     CallExpr(Expr *, std::vector<Expr *>, scheat::SourceLocation);
     std::string Decode() override;
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     ~CallExpr();
 };
 
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATCALLEXPR_H

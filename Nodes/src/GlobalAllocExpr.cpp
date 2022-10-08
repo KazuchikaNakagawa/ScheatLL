@@ -2,17 +2,18 @@
 #include "../../Global/Globals.hpp"
 #include "../../LLVMConverter/LLVMConverter.hpp"
 #include "../../Type/ScheatLLType.hpp"
-#include "../../API/ScheatLL.hpp"
+#include "../../ScheatLL/ScheatLL.hpp"
+#include "../Nodes.hpp"
 
-using namespace scheatll;
+using namespace scheat;
 
 llvm::Value *GlobalAllocExpr::LLVMConvert(){
     auto ltype = variableType->LLVMType();
     llvm::Constant *defaultVal = nullptr;
-    if (variableType == scheatll::Type(Int32))
+    if (variableType == scheat::Type(Int32))
     {
         defaultVal = ScheatllLLVMConverter->Builder().getInt32(0);
-    }else if (variableType == scheatll::Type(Double))
+    }else if (variableType == scheat::Type(Double))
     {
         defaultVal = llvm::ConstantFP::get(ScheatllLLVMConverter->Builder().getDoubleTy(), 0.0);
     }else{
@@ -38,7 +39,7 @@ std::string GlobalAllocExpr::Decode() {
     }
 }
 
-scheatll_type* GlobalAllocExpr::Type() {
+scheat_type* GlobalAllocExpr::Type() {
     if (variableType == nullptr)
     {
         return nullptr;
@@ -47,18 +48,28 @@ scheatll_type* GlobalAllocExpr::Type() {
     return variableType->getPointerTo();
 }
 
-GlobalAllocExpr::GlobalAllocExpr(std::string s, scheatll_type* t, scheatll_attribute att, scheat::SourceLocation l) 
+GlobalAllocExpr::GlobalAllocExpr(std::string s, scheat_type* t, scheat_attribute att, scheat::SourceLocation l) 
 : attribute(att), Expr(l)
 {
     variableName = s;
-    variableType = t;
+    if (t != nullptr) setType(t);
 }
 
 GlobalAllocExpr::~GlobalAllocExpr()
 {
 }
 
-void GlobalAllocExpr::setType(scheatll_type *tp)
+void GlobalAllocExpr::setType(scheat_type *tp)
 {
     variableType = tp;
+    if (tp->isInManaged())
+    {
+        EditingTarget->InsertIRToStart();
+        CallVoid(tp->getInitializer(), {this});
+        EditingTarget->insertPoint.PauseEditing();
+
+        EditingTarget->InsertIRToExit();
+        CallVoid(tp->getDeinitializer(), {this});
+        EditingTarget->insertPoint.PauseEditing();
+    }
 }

@@ -2,17 +2,19 @@
 #include "../LLVMConverter/LLVMConverter.hpp"
 #include "../Global/Globals.hpp"
 #include "ScheatLLPointerType.hpp"
+#include "../ScheatLL/ScheatLL.hpp"
+#include "../Error/ScheatLLError.hpp"
 
-using namespace scheatll;
+using namespace scheat;
 
-scheatll_type* scheatll_type::int_type = new scheatll_type(Int32);
-scheatll_type* scheatll_type::int8_type = new scheatll_type(Int8);
-scheatll_type* scheatll_type::int64_type = new scheatll_type(Int64);
-scheatll_type* scheatll_type::int1_type = new scheatll_type(Int1);
-scheatll_type* scheatll_type::float_type = new scheatll_type(Double);
-scheatll_type* scheatll_type::void_type = new scheatll_type(Void);
+scheat_type* scheat_type::int_type = new scheat_type(Int32);
+scheat_type* scheat_type::int8_type = new scheat_type(Int8);
+scheat_type* scheat_type::int64_type = new scheat_type(Int64);
+scheat_type* scheat_type::int1_type = new scheat_type(Int1);
+scheat_type* scheat_type::float_type = new scheat_type(Double);
+scheat_type* scheat_type::void_type = new scheat_type(Void);
 
-llvm::Type* scheatll_type::LLVMType() {
+llvm::Type* scheat_type::LLVMType() {
     switch (this->defType)
     {
     case Int32:
@@ -34,7 +36,7 @@ llvm::Type* scheatll_type::LLVMType() {
     return nullptr;
 }
 
-std::string scheatll_type::typeName() {
+std::string scheat_type::typeName() {
     switch (this->defType)
     {
     case Int32:
@@ -55,21 +57,90 @@ std::string scheatll_type::typeName() {
     }
 }
 
-scheatll_type* scheatll_type::getPointerTo() {
+Term* scheat_type::SizeOf()
+{
+    switch (this->defType)
+    {
+    case Int32:
+        return Constant(4);
+        break;
+    case Int8:
+        return Constant(1);
+    case Int64:
+        return Constant(8);
+    case Int1:
+        return Constant(1);
+    case Double:
+        return Constant(8);
+    default:
+        return Constant(8);
+    }
+    return Constant(8);
+}
+
+scheat_type* scheat_type::getPointerTo() {
     if (this->pointerOfSelf == nullptr)
     {
-        pointerOfSelf = new scheatll_poiner_type(this);
+        pointerOfSelf = new scheat_poiner_type(this);
     }
     return pointerOfSelf;
 }
 
 
 // do not use about structures, classes, and pointer types.
-scheatll_type::scheatll_type(DefaultType dt)
+scheat_type::scheat_type(DefaultType dt)
 {
     defType = dt;
 }
 
-scheatll_type::~scheatll_type()
+scheat_type::~scheat_type()
 {
+}
+
+Term* scheat_type::Access(Expr *lhs, std::string rhs, scheat::SourceLocation)
+{
+    throw scheat_unavailable_feature_error();
+}
+
+static std::string to_string(std::vector<scheat_type*>& list)
+{
+    std::string result = "";
+    for (auto &&tp : list)
+    {
+        result += tp->typeName() + ", ";
+    }
+    if (!list.empty())
+    {
+        result.pop_back(); result.pop_back();
+    }
+    return result;
+}
+
+Term* scheat_type::Access(
+    Expr *lhs, std::string rhs, std::vector<scheat_type*> rhsSub, scheat::SourceLocation
+)
+{
+    std::string name = typeName() + rhs + " from(" + to_string(rhsSub) + ")";
+    return ID(name); 
+}
+
+Term* scheat_type::DefaultValue()
+{
+    switch (defType)
+    {
+    case Int32:
+        return Constant(0);
+        break;
+    case Int1:
+        return Constant(false);
+    case Int8:
+        return Constant(0);
+    case Double:
+        return Constant(0.0);
+    case Pointer:
+        return Nil(this);
+    default:
+        throw scheat_value_error();
+        break;
+    }
 }

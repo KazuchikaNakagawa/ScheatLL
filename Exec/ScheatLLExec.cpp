@@ -3,10 +3,10 @@
 #include "../Codes/Codes.hpp"
 #include "../LLVMConverter/LLVMConverter.hpp"
 #include "../Nodes/Nodes.hpp"
-#include "../API/ScheatLL.hpp"
+#include "../ScheatLL/ScheatLL.hpp"
 #include <iostream>
 
-using namespace scheatll;
+using namespace scheat;
 
 void ScheatLLExec::StartEditing() {
     if (EditingTarget != nullptr)
@@ -28,26 +28,26 @@ ScheatLLExec::ScheatLLExec(std::string modName)
     insertPoint.StartEditing(((DeclareFuncExpr *)firstScope)->body);
 
     // adds default operators
-    scheatll_type::int_type->AddInfixOperator("+", Normal);
-    scheatll_type::int_type->AddInfixOperator("-", Normal);
-    scheatll_type::int_type->AddInfixOperator("*", Primary);
-    scheatll_type::int_type->AddInfixOperator("/", Primary);
-    scheatll_type::int_type->AddInfixOperator("==", Normal);
-    scheatll_type::int_type->AddInfixOperator("!=", Normal);
-    scheatll_type::int_type->AddInfixOperator("<", Normal);
-    scheatll_type::int_type->AddInfixOperator(">", Normal);
-    scheatll_type::int_type->AddInfixOperator("<=", Normal);
-    scheatll_type::int_type->AddInfixOperator(">=", Normal);
-    scheatll_type::float_type->AddInfixOperator("+", Normal);
-    scheatll_type::float_type->AddInfixOperator("-", Normal);
-    scheatll_type::float_type->AddInfixOperator("*", Primary);
-    scheatll_type::float_type->AddInfixOperator("/", Primary);
-    scheatll_type::float_type->AddInfixOperator("==", Normal);
-    scheatll_type::float_type->AddInfixOperator("<", Normal);
-    scheatll_type::float_type->AddInfixOperator(">", Normal);
-    scheatll_type::float_type->AddInfixOperator("<=", Normal);
-    scheatll_type::float_type->AddInfixOperator(">=", Normal);
-    scheatll_type::float_type->AddInfixOperator("!=", Normal);
+    scheat_type::int_type->AddInfixOperator("+", Normal);
+    scheat_type::int_type->AddInfixOperator("-", Normal);
+    scheat_type::int_type->AddInfixOperator("*", Primary);
+    scheat_type::int_type->AddInfixOperator("/", Primary);
+    scheat_type::int_type->AddInfixOperator("==", Normal);
+    scheat_type::int_type->AddInfixOperator("!=", Normal);
+    scheat_type::int_type->AddInfixOperator("<", Normal);
+    scheat_type::int_type->AddInfixOperator(">", Normal);
+    scheat_type::int_type->AddInfixOperator("<=", Normal);
+    scheat_type::int_type->AddInfixOperator(">=", Normal);
+    scheat_type::float_type->AddInfixOperator("+", Normal);
+    scheat_type::float_type->AddInfixOperator("-", Normal);
+    scheat_type::float_type->AddInfixOperator("*", Primary);
+    scheat_type::float_type->AddInfixOperator("/", Primary);
+    scheat_type::float_type->AddInfixOperator("==", Normal);
+    scheat_type::float_type->AddInfixOperator("<", Normal);
+    scheat_type::float_type->AddInfixOperator(">", Normal);
+    scheat_type::float_type->AddInfixOperator("<=", Normal);
+    scheat_type::float_type->AddInfixOperator(">=", Normal);
+    scheat_type::float_type->AddInfixOperator("!=", Normal);
 }
 
 ScheatLLExec::~ScheatLLExec()
@@ -140,6 +140,16 @@ void ScheatLLExec::InsertIR(Expr *ir) {
     ((Codes *)insertPoint)->code(ir);
 }
 
+void ScheatLLExec::InsertIRToStart()
+{
+    insertPoint.StartEditing(firstScope->body);
+}
+
+void ScheatLLExec::InsertIRToExit()
+{
+    insertPoint.StartEditing(exitScope->body);
+}
+
 void ScheatLLExec::VerifyGlobalVariables(Expr *var) {
     globalScope->code(var);
 }
@@ -168,14 +178,4 @@ void ScheatLLExec::Dump() {
         std::cerr << std::endl;
     }
     
-}
-
-std::string ScheatLLExec::getIndent()
-{
-    std::string res;
-    for (size_t i = 0; i < IndentCount; i++)
-    {
-        res += "    ";
-    }
-    return res;
 }

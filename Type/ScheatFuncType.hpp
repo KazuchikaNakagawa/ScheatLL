@@ -5,23 +5,26 @@
 
 #include <vector>
 
-namespace scheatll
+namespace scheat
 {
 
-class scheat_func_type : public scheatll_type
+class Term;
+
+class scheat_func_type : public scheat_type
 {
 private:
-    scheatll_type* returnType;
-    std::vector<scheatll_type*> argumentTypes;
+    scheat_type* returnType;
+    std::vector<scheat_type*> argumentTypes;
 public:
-    scheat_func_type(scheatll_type*, std::vector<scheatll_type *>&);
+    scheat_func_type(scheat_type*, std::vector<scheat_type *>&);
     llvm::Type *LLVMType() override;
     std::string typeName() override;
-    scheatll_type* getReturnType() override{ return returnType; };
+    scheat_type* getReturnType() override{ return returnType; };
+    Term* SizeOf() override;
     ~scheat_func_type();
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATFUNCTYPE_HPP

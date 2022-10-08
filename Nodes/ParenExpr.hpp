@@ -3,7 +3,7 @@
 
 #include "BasicNodes.hpp"
 
-namespace scheatll
+namespace scheat
 {
 
 class ParenExpr : public Term
@@ -16,11 +16,11 @@ protected:
 public:
     ParenExpr(Expr *, scheat::SourceLocation);
     std::string Decode() override;
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     ~ParenExpr();
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATPARENEXPR_H

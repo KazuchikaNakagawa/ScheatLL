@@ -3,7 +3,7 @@
 
 #include <stack>
 
-namespace scheatll
+namespace scheat
 {
 
 // Node receiver. 
@@ -23,6 +23,8 @@ public:
     // pop a current Codes
     void EndEditing();
 
+    void PauseEditing();
+
     operator Codes*() {
         if (pointsStack.empty())
         {
@@ -35,7 +37,7 @@ public:
     ~InsertPoint();
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // INSERTPOINT_H

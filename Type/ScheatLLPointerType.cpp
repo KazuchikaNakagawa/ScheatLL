@@ -1,21 +1,26 @@
 #include "ScheatLLPointerType.hpp"
 #include "../LLVMConverter/LLVMConverter.hpp"
-using namespace scheatll;
+#include "../ScheatLL/ScheatLL.hpp"
+using namespace scheat;
 
-llvm::Type *scheatll_poiner_type::LLVMType() {
+llvm::Type *scheat_poiner_type::LLVMType() {
     return elementType->LLVMType()->getPointerTo();
 }
 
-std::string scheatll_poiner_type::typeName() {
+std::string scheat_poiner_type::typeName() {
     return elementType->typeName() + "*";
 }
 
-scheatll_poiner_type::scheatll_poiner_type(scheatll_type* et) : scheatll_type(Pointer)
+scheat_poiner_type::scheat_poiner_type(scheat_type* et) : scheat_type(Pointer)
 {
     elementType = et;
 }
 
-scheatll_poiner_type::~scheatll_poiner_type()
+scheat_poiner_type::~scheat_poiner_type()
 {
 }
 
+Term* scheat_poiner_type::SizeOf()
+{
+    return Constant(8);
+}

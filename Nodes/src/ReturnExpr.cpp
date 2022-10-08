@@ -1,9 +1,9 @@
 #include "../ReturnExpr.hpp"
-#include "../../API/ScheatLL.hpp"
+#include "../../ScheatLL/ScheatLL.hpp"
 #include "../../Global/Globals.hpp"
 #include "../../LLVMConverter/LLVMConverter.hpp"
 #include "../../Type/ScheatLLType.hpp"
-using namespace scheatll;
+using namespace scheat;
 
 ReturnExpr::ReturnExpr(Expr *expr, scheat::SourceLocation l)
 : Expr(l)
@@ -15,14 +15,14 @@ ReturnExpr::~ReturnExpr()
 {
 }
 
-scheatll_attribute ReturnExpr::getAttribute()
+scheat_attribute ReturnExpr::getAttribute()
 {
     return Attribute(unreadable, unwritable);
 }
 
-scheatll_type* ReturnExpr::Type()
+scheat_type* ReturnExpr::Type()
 {
-    return scheatll::Type(Void);
+    return scheat::Type(Void);
 }
 
 llvm::Value* ReturnExpr::LLVMConvert()

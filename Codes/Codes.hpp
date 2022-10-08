@@ -5,13 +5,13 @@
 #include <vector>
 #include <map>
 
-namespace scheatll
+namespace scheat
 {
 
-// All scheatll code becomes Expr
+// All scheat code becomes Expr
 class Expr;
 
-class scheatll_type;
+class scheat_type;
 
 class Codes
 {
@@ -19,7 +19,7 @@ private:
     std::string label;
     std::vector<Expr *> buf;
     Codes *parent;
-    scheatll_type *expectedReturnType;
+    scheat_type *expectedReturnType;
     bool sureToExecute = true;
     bool returnsValue = false;
 public:
@@ -30,7 +30,7 @@ public:
     Codes(std::string s, bool);
 
     // function codes
-    Codes(std::string s, scheatll_type*);
+    Codes(std::string s, scheat_type*);
 
     // ScheatはStringの形で名前を保管する。Namespaceもろもろを計算してScheatLL上の名前に変換するのが仕事。
     std::map<std::string, Expr*> localVariables;
@@ -49,7 +49,7 @@ public:
 
     // TODO: define this
     // called when this scope is returned, or broken. 
-    void Exit() {};
+    void Exit();
 
     // for some classes wants to access buf
     std::vector<Expr *>& getBuffer() { return buf; };
@@ -59,14 +59,14 @@ public:
     // if this is true, it is sure to return value.
     bool hasReturnValue() { return returnsValue; };
 
-    void verifyReturn(scheatll_type*);
+    void verifyReturn(scheat_type*);
 
-    scheatll_type* getExpectedReturnType() { return expectedReturnType; };
+    scheat_type* getExpectedReturnType() { return expectedReturnType; };
 
     ~Codes();
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // CODES_HPP

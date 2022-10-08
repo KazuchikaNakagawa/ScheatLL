@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace scheatll
+namespace scheat
 {
 
 enum ReadAttribute {
@@ -22,23 +22,23 @@ enum AccessAttribute {
     _internal, // default
 };
 
-class scheatll_attribute
+class scheat_attribute
 {
 private:
     ReadAttribute r;
     WriteAttribute w;
     AccessAttribute a;
 public:
-    scheatll_attribute(ReadAttribute, WriteAttribute, AccessAttribute);
+    scheat_attribute(ReadAttribute, WriteAttribute, AccessAttribute);
     bool is_readable() { return r == readable; };
     bool is_writable() { return w == writable; };
     bool is_public() { return a == _public; };
     std::string to_string();
-    scheatll_attribute(const scheatll_attribute &);
-    ~scheatll_attribute();
+    scheat_attribute(const scheat_attribute &);
+    ~scheat_attribute();
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCLLATTRIBUTE_HPP

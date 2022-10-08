@@ -3,7 +3,7 @@
 
 #include "BasicNodes.hpp"
 
-namespace scheatll
+namespace scheat
 {
 
 // it made identifier expression into TermExpr level.
@@ -16,15 +16,15 @@ protected:
 public:
     ReferenceExpr(Expr *, scheat::SourceLocation);
     std::string Decode() override;
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     Expr* getSrc() { return src; };
-    scheatll_attribute getAttribute() override{
+    scheat_attribute getAttribute() override{
         return src->getAttribute();
     }
     ~ReferenceExpr();
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATREFERENCEEXPR_HPP

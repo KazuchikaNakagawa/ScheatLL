@@ -17,5 +17,6 @@
 #include "CallExpr.hpp"
 #include "ExternalFuncExpr.hpp"
 #include "ParenExpr.hpp"
+#include "GetElementExpr.hpp"
 
 #endif // SCHEATLLNODES_HPP

@@ -13,10 +13,11 @@ class Value;
 } // namespace llvm
 
 
-namespace scheatll
+namespace scheat
 {
 
-class scheatll_type;
+class scheat_type;
+class Term;
 
 class Expr
 {
@@ -33,10 +34,10 @@ public:
 
     Expr() = delete;
 
-    virtual scheatll_type* Type();
+    virtual scheat_type* Type();
 
     // !!
-    // scheatll as a string
+    // scheat as a string
     virtual std::string Decode() { return "ERROR"; };
 
     // !!
@@ -49,10 +50,12 @@ public:
 
     // shows if it has a specific attributes.
     // default: readable, writable, internal
-    virtual scheatll_attribute getAttribute()
-    { return scheatll_attribute(readable, writable, _internal); };
+    virtual scheat_attribute getAttribute()
+    { return scheat_attribute(readable, writable, _internal); };
 
     scheat::SourceLocation &Location() { return location; };
+
+    Term* AccessTo(std::string, scheat::SourceLocation l = scheat::OutOfFile());
 
     virtual ~Expr();
 };
@@ -81,12 +84,12 @@ public:
 class Attributed
 {
 public:
-    virtual scheatll_attribute getAttribute() = 0;
+    virtual scheat_attribute getAttribute() = 0;
     Attributed();
     ~Attributed();
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // BASICNODES_HPP

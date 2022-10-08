@@ -3,11 +3,13 @@
 
 #include "../InsertPoint/InsertPoint.hpp"
 #include "../SourceLocation/SourceLocation.h"
+#include "Implements/IndentManagerImpl.hpp"
+#include "Implements/StructManagerImpl.hpp"
 #include <string>
 #include <map>
 #include <vector>
 
-namespace scheatll
+namespace scheat
 {
 
 class Expr;
@@ -16,24 +18,26 @@ class Codes;
 
 class InsertPoint;
 
+class Struct;
+
+class DeclareFuncExpr;
+
 // it named 'Exec', but it represents .a(lib) and so on. 
-class ScheatLLExec
+class ScheatLLExec : public IndentManagerImpl, public StructManagerImpl
 {
 protected:
     // means global{} field. contains global variable and class infos
     Codes *globalScope;
 
     // itself function. named module name. 
-    Expr *firstScope;
+    DeclareFuncExpr *firstScope;
 
     // exit function. deinitialize global variables
-    Expr *exitScope;
+    DeclareFuncExpr *exitScope;
 
     std::string ModuleName;
 
     std::vector<Expr *> globalFunctions;
-
-    unsigned int IndentCount = 0;
 
 public:
     // constructor -- needs module name.
@@ -52,6 +56,8 @@ public:
     std::map<std::string, Expr*> globals;
 
     void InsertIR(Expr *);
+    void InsertIRToStart();
+    void InsertIRToExit();
 
     // do not call this even if you want to make a global variable. use MakeGlobalVar in the ScheatLL.hpp
     void VerifyGlobalVariables(Expr *);
@@ -68,12 +74,7 @@ public:
 
     InsertPoint insertPoint;
 
-    std::string getIndent();
-
     void setInsertPoint(Codes *c) { insertPoint.StartEditing(c); };
-
-    void IncreaseIndent() { IndentCount++; };
-    void DecreaseIndent() { IndentCount--; };
 
     void ExportObjectFile(bool ll = true, std::string FilePath = "");
 
@@ -81,7 +82,7 @@ public:
 };
 
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATLLEXEC_HPP

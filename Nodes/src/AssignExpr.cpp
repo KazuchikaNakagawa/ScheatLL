@@ -3,7 +3,7 @@
 #include "../../LLVMConverter/LLVMConverter.hpp"
 #include "../../Type/ScheatLLType.hpp"
 #include "../../Type/ScLLType.hpp"
-using namespace scheatll;
+using namespace scheat;
 
 AssignExpr::AssignExpr(Expr *ptr, Expr *val, scheat::SourceLocation l)
 : Expr(l)
@@ -27,7 +27,7 @@ std::string AssignExpr::Decode() {
     return pointer->Decode() + " = " + value->Decode();
 }
 
-scheatll_type* AssignExpr::Type()
+scheat_type* AssignExpr::Type()
 {
-    return scheatll::Type(Void);
+    return scheat::Type(Void);
 }

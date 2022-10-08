@@ -1,24 +1,24 @@
-#include "../API/ScheatLL.hpp"
+#include "../ScheatLL/ScheatLL.hpp"
 #include "ScLLAttribute.hpp"
 
-using namespace scheatll;
+using namespace scheat;
 
-scheatll_attribute scheatll::Attribute(ReadAttribute r, WriteAttribute w, AccessAttribute a)
+scheat_attribute scheat::Attribute(ReadAttribute r, WriteAttribute w, AccessAttribute a)
 {
-    return scheatll_attribute(r, w, a);
+    return scheat_attribute(r, w, a);
 }
 
-scheatll_attribute::scheatll_attribute(const scheatll_attribute &attr)
-: scheatll_attribute(attr.r, attr.w, attr.a)
+scheat_attribute::scheat_attribute(const scheat_attribute &attr)
+: scheat_attribute(attr.r, attr.w, attr.a)
 {
 }
 
-scheatll_attribute scheatll::FunctionAttribute(AccessAttribute a)
+scheat_attribute scheat::FunctionAttribute(AccessAttribute a)
 {
-    return scheatll_attribute(readable, unwritable, a);
+    return scheat_attribute(readable, unwritable, a);
 }
 
-std::string scheatll_attribute::to_string() {
+std::string scheat_attribute::to_string() {
     std::string result = "";
     if (r == readable)
     {
@@ -46,13 +46,13 @@ std::string scheatll_attribute::to_string() {
 }
 
 
-scheatll_attribute::scheatll_attribute(ReadAttribute r, WriteAttribute w, AccessAttribute a)
+scheat_attribute::scheat_attribute(ReadAttribute r, WriteAttribute w, AccessAttribute a)
 {
     this->r = r;
     this->w = w;
     this->a = a;
 }
 
-scheatll_attribute::~scheatll_attribute()
+scheat_attribute::~scheat_attribute()
 {
 }

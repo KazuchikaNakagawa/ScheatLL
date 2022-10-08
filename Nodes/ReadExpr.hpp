@@ -3,7 +3,7 @@
 
 #include "BasicNodes.hpp"
 
-namespace scheatll
+namespace scheat
 {
 
 // creates Load instruction in LLVM
@@ -17,11 +17,11 @@ protected:
 public:
     ReadExpr(Expr *, scheat::SourceLocation);
     std::string Decode() override;
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     ~ReadExpr();
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATREADEXPR_HPP

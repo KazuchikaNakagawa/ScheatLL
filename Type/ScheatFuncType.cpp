@@ -1,11 +1,12 @@
 #include "ScheatFuncType.hpp"
 #include "../LLVMConverter/LLVMConverter.hpp"
 #include "../Global/Globals.hpp"
+#include "../ScheatLL/ScheatLL.hpp"
 
-using namespace scheatll;
+using namespace scheat;
 
-scheat_func_type::scheat_func_type(scheatll_type* rt, std::vector<scheatll_type *>& agts)
-: scheatll_type(FunctionType)
+scheat_func_type::scheat_func_type(scheat_type* rt, std::vector<scheat_type *>& agts)
+: scheat_type(FunctionType)
 {
     returnType = rt;
     argumentTypes = agts;
@@ -43,4 +44,9 @@ std::string scheat_func_type::typeName()
     }
     result += ")";
     return result;
+}
+
+Term* scheat_func_type::SizeOf()
+{
+    return Constant(8);
 }

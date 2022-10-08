@@ -6,7 +6,7 @@
 #include "../../Global/Globals.hpp"
 #include "../../LLVMConverter/LLVMConverter.hpp"
 
-using namespace scheatll;
+using namespace scheat;
 
 
 CallExpr::CallExpr(Expr *func, std::vector<Expr *> args, scheat::SourceLocation l)
@@ -37,7 +37,7 @@ std::string CallExpr::Decode()
     return result;
 }
 
-scheatll_type* CallExpr::Type()
+scheat_type* CallExpr::Type()
 {
     return Function->Type()->getReturnType();
 }

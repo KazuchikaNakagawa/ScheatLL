@@ -11,45 +11,49 @@
 #include <string>
 #include <vector>
 
-namespace scheatll
+namespace scheat
 {
 
 class ScheatLLExec;
 class Expr;
 class Term;
 
-class scheatll_type;
+class scheat_type;
 
-// scheatll cannot accept duplicating names even though their kinds are different.
-// Name class check those problem. maybe used from scheatll2.0
-class scheatll_name;
+// scheat cannot accept duplicating names even though their kinds are different.
+// Name class check those problem. maybe used from scheat2.0
+class scheat_name;
 
-class scheatll_attribute;
+class scheat_attribute;
 
 // --defined
 // creates a local variable.
 // if wants to create a global one, use MakeGlobalVar
-extern void MakeVar(scheatll_type *, std::string, scheatll_attribute, scheat::SourceLocation l = scheat::OutOfFile());
+extern void MakeVar(scheat_type *, std::string, scheat_attribute, scheat::SourceLocation l = scheat::OutOfFile());
 
 // --defined
 // sometime throws error.
 // name duplicated, illegal type, ...
-extern void MakeGlobalVar(scheatll_type *, std::string, scheatll_attribute, scheat::SourceLocation l = scheat::OutOfFile());
+extern void MakeGlobalVar(scheat_type *, std::string, scheat_attribute, scheat::SourceLocation l = scheat::OutOfFile());
 
 // creates a global function
 // it starts editing generated function. 
 extern void MakeFunction(
-    scheatll_type *, 
+    scheat_type *, 
     std::string, 
-    std::vector<scheatll_type *>, 
+    std::vector<scheat_type *>, 
     std::vector<std::string>, 
-    scheatll_attribute, 
+    scheat_attribute, 
     scheat::SourceLocation l = scheat::OutOfFile());
 
+extern void MakeStruct(std::string, scheat::SourceLocation l = scheat::OutOfFile());
+extern void AddMember(std::string, std::string, scheat_type*, AccessAttribute aa = _public);
+extern void EndStruct(std::string);
+
 extern void External(
-    scheatll_type*, 
+    scheat_type*, 
     std::string, 
-    std::vector<scheatll_type *>, 
+    std::vector<scheat_type *>, 
     bool varArg = false,
     scheat::SourceLocation l = scheat::OutOfFile());
 
@@ -64,10 +68,11 @@ extern Term* Constant(int, scheat::SourceLocation l = scheat::OutOfFile());
 extern Term* Constant(const char *, scheat::SourceLocation l = scheat::OutOfFile());
 extern Term* Constant(double, scheat::SourceLocation l = scheat::OutOfFile());
 extern Term* Constant(bool, scheat::SourceLocation l = scheat::OutOfFile());
+extern Term* Nil(scheat_type*, scheat::SourceLocation l = scheat::OutOfFile());
 
 // create store instruction
 // it does NOT check readability nor writability
-// direct input will not happen in scheatll code, but api can cause
+// direct input will not happen in scheat code, but ScheatLL can cause
 // if user wanted to do so.
 // it is a 'raw' assign. someday it will be renamed to 'RawAssign'
 // and new Assign can convert values and assign. 
@@ -105,12 +110,12 @@ extern Term* Paren(Expr *, scheat::SourceLocation l = scheat::OutOfFile());
 
 // --defined
 // creates a attribute
-extern scheatll_attribute Attribute(ReadAttribute r = readable, WriteAttribute w = writable, AccessAttribute a = _internal);
-extern scheatll_attribute FunctionAttribute(AccessAttribute a = _internal);
+extern scheat_attribute Attribute(ReadAttribute r = readable, WriteAttribute w = writable, AccessAttribute a = _internal);
+extern scheat_attribute FunctionAttribute(AccessAttribute a = _internal);
 
 // !!
 // create a name from string.
-extern scheatll_name* NewName(std::string);
+extern scheat_name* NewName(std::string);
 
 // Operate functions
 // compiler may detect which to call correctly, but had better specify types(Expr--PrimaryExpr--Term)
@@ -130,7 +135,7 @@ extern Expr*        Operate(Expr *, std::string, scheat::SourceLocation l = sche
 extern PrimaryExpr* Operate(PrimaryExpr *, std::string, scheat::SourceLocation l = scheat::OutOfFile());
 extern Term*        Operate(Term *, std::string, scheat::SourceLocation l = scheat::OutOfFile());
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif

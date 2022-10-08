@@ -1,5 +1,5 @@
 #include "../ParenExpr.hpp"
-using namespace scheatll;
+using namespace scheat;
 
 llvm::Value *ParenExpr::LLVMConvert()
 {
@@ -21,7 +21,7 @@ std::string ParenExpr::Decode()
     return "(" + src->Decode() + ")";
 }
 
-scheatll_type* ParenExpr::Type()
+scheat_type* ParenExpr::Type()
 {
     return src->Type();
 }

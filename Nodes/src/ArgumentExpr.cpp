@@ -1,10 +1,12 @@
 #include "../ArgumentExpr.hpp"
 #include "../DeclareFuncExpr.hpp"
+#include "../../Global/Globals.hpp"
 #include "../../LLVMConverter/LLVMConverter.hpp"
-using namespace scheatll;
+#include "../../Type/ScheatLLType.hpp"
+using namespace scheat;
 
 
-ArgumentExpr::ArgumentExpr(DeclareFuncExpr *f,std::string nm, scheatll_type* tp, unsigned int idx)
+ArgumentExpr::ArgumentExpr(DeclareFuncExpr *f,std::string nm, scheat_type* tp, unsigned int idx)
 : Expr(f->Location())
 {
     name = nm;
@@ -26,7 +28,15 @@ llvm::Value *ArgumentExpr::LLVMConvert()
     {
         if (i == index)
         {
-            return &arg;
+            auto arg_val = &arg;
+            if (name == "its")
+            {
+                return arg_val;
+            }
+            
+            auto arg_ref = ScheatllLLVMConverter->Builder().CreateAlloca(type->LLVMType());
+            ScheatllLLVMConverter->Builder().CreateStore(arg_val, arg_ref);
+            return arg_ref;
         }
 
         i++;

@@ -1,24 +1,26 @@
 #include "ScLLType.hpp"
 #include "ScheatLLType.hpp"
 #include "ScheatFuncType.hpp"
-using namespace scheatll;
+#include "../Global/Globals.hpp"
+#include "../Exec/ScheatLLExec.hpp"
+using namespace scheat;
 
-scheatll_type* scheatll::Type(DefaultType dt)
+scheat_type* scheat::Type(DefaultType dt)
 {
     switch (dt)
     {
     case Int1:
-        return scheatll_type::int1_type;
+        return scheat_type::int1_type;
     case Int32:
-        return scheatll_type::int_type;
+        return scheat_type::int_type;
     case Int64:
-        return scheatll_type::int64_type;
+        return scheat_type::int64_type;
     case Int8:
-        return scheatll_type::int8_type;
+        return scheat_type::int8_type;
     case Double:
-        return scheatll_type::float_type;
+        return scheat_type::float_type;
     case Void:
-        return scheatll_type::void_type;
+        return scheat_type::void_type;
     case NotDefaultType:
         // NotDefaultType is not a specific type
         return nullptr;
@@ -28,12 +30,12 @@ scheatll_type* scheatll::Type(DefaultType dt)
     return nullptr;
 }
 
-scheatll_type* scheatll::Type(std::string)
+scheat_type* scheat::Type(std::string nm)
 {
-    return nullptr;
+    return EditingTarget->getStruct(nm);
 }
 
-scheatll_type* scheatll::PointerType(scheatll_type* tp)
+scheat_type* scheat::PointerType(scheat_type* tp)
 {
     if (tp == nullptr)
     {
@@ -44,7 +46,7 @@ scheatll_type* scheatll::PointerType(scheatll_type* tp)
     
 }
 
-scheatll_type* scheatll::FuncType(scheatll_type* rt, std::vector<scheatll_type*>& ats)
+scheat_type* scheat::FuncType(scheat_type* rt, std::vector<scheat_type*>& ats)
 {
     std::string result;
     int index = 0;

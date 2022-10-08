@@ -1,6 +1,7 @@
 #include "Globals.hpp"
 
-using namespace scheatll;
+using namespace scheat;
 
-ScheatLLExec *scheatll::EditingTarget = nullptr;
-LLVMConverter *scheatll::ScheatllLLVMConverter = nullptr;
+ScheatLLExec *scheat::EditingTarget = nullptr;
+LLVMConverter *scheat::ScheatllLLVMConverter = nullptr;
+Struct *scheat::EditingStructure = nullptr;

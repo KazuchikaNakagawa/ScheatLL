@@ -3,7 +3,7 @@
 
 #include "BasicNodes.hpp"
 
-namespace scheatll
+namespace scheat
 {
 
 class AssignExpr : public Expr
@@ -16,11 +16,11 @@ protected:
 public:
     AssignExpr(Expr *, Expr *, scheat::SourceLocation);
     std::string Decode() override;
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     ~AssignExpr();
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATASSIGNEXPR_HPP

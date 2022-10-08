@@ -2,11 +2,11 @@
 #include "../../Codes/Codes.hpp"
 #include "../../Exec/ScheatLLExec.hpp"
 #include "../../Global/Globals.hpp"
-#include "../../API/ScheatLL.hpp"
+#include "../../ScheatLL/ScheatLL.hpp"
 #include "../../LLVMConverter/LLVMConverter.hpp"
 #include "../../Type/ScheatLLType.hpp"
 
-using namespace scheatll;
+using namespace scheat;
 
 IfExpr::IfExpr(Expr *c, Codes *t)
 : Expr(c->Location())
@@ -33,9 +33,9 @@ std::string IfExpr::Decode()
     return result;
 }
 
-scheatll_type *IfExpr::Type()
+scheat_type *IfExpr::Type()
 {
-    return scheatll::Type(Void);
+    return scheat::Type(Void);
 }
 
 llvm::Value *IfExpr::LLVMConvert() 
@@ -72,9 +72,9 @@ IfElseExpr::~IfElseExpr()
 {
 }
 
-scheatll_type *IfElseExpr::Type()
+scheat_type *IfElseExpr::Type()
 {
-    return scheatll::Type(Void);
+    return scheat::Type(Void);
 }
 
 llvm::Value *IfElseExpr::LLVMConvert() 

@@ -5,7 +5,7 @@
 #include "../../LLVMConverter/LLVMConverter.hpp"
 #include "../../Type/ScheatLLType.hpp"
 
-using namespace scheatll;
+using namespace scheat;
 
 
 ReadExpr::ReadExpr(Expr *expr, scheat::SourceLocation l)
@@ -32,7 +32,7 @@ llvm::Value* ReadExpr::LLVMConvert()
     );
 }
 
-scheatll_type* ReadExpr::Type()
+scheat_type* ReadExpr::Type()
 {
     return src->Type()->getElementType();
 }

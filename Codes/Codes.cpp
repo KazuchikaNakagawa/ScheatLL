@@ -2,17 +2,17 @@
 #include "../Nodes/Nodes.hpp"
 #include "../Global/Globals.hpp"
 #include "../Exec/ScheatLLExec.hpp"
-#include "../API/ScheatLL.hpp"
+#include "../ScheatLL/ScheatLL.hpp"
 #include "../Error/ScheatLLError.hpp"
 #include <iostream>
 
-using namespace scheatll;
+using namespace scheat;
 
 void Codes::ConvertAll()
 {
     for (auto &&ir : buf)
     {
-        ((Expr *)ir)->LLVMEncode();
+        ir->LLVMEncode();
     }
     
 }
@@ -44,7 +44,7 @@ Codes::Codes(std::string s, bool ex)
     }
 }
 
-Codes::Codes(std::string s, scheatll_type* expected)
+Codes::Codes(std::string s, scheat_type* expected)
 {
     label = s;
     expectedReturnType = expected;
@@ -58,6 +58,9 @@ Codes::~Codes()
 void Codes::code(Expr *&code)
 {
     buf.push_back(code);
+    #ifdef DEBUG
+    printf("%s : edited\n", getLabel().c_str());
+    #endif
 }
 
 void Codes::Dump(){
@@ -89,7 +92,7 @@ Expr *Codes::findLocalVariable(std::string nm)
     
 }
 
-void Codes::verifyReturn(scheatll_type* tp)
+void Codes::verifyReturn(scheat_type* tp)
 {
     if (expectedReturnType == nullptr)
     {
@@ -98,7 +101,7 @@ void Codes::verifyReturn(scheatll_type* tp)
     
     if (expectedReturnType != tp)
     {
-        throw scheatll_value_error();
+        throw scheat_value_error();
     }
     if (sureToExecute)
     {
@@ -108,6 +111,32 @@ void Codes::verifyReturn(scheatll_type* tp)
             parent->verifyReturn(tp);
             parent->returnsValue = true;
         }
+    }
+    
+}
+
+void Codes::Exit()
+{
+    if (this != EditingTarget->insertPoint)
+    {
+        throw scheat_return_error();
+    }
+    
+    for (auto &&[localk, localv] : localVariables)
+    {
+        if (localk == "its")
+        {
+            continue;
+        }
+        
+        auto tp = localv->Type()->getElementType();
+        if (tp->isInManaged())
+        {
+            EditingTarget->insertPoint.StartEditing(this);
+            CallVoid(tp->getDeinitializer(), {localv});
+            EditingTarget->insertPoint.PauseEditing();
+        }
+        
     }
     
 }

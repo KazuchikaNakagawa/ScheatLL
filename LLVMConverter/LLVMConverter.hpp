@@ -24,7 +24,7 @@
 #include "llvm/Target/TargetMachine.h"
 #include "llvm/Target/TargetOptions.h"
 
-namespace scheatll
+namespace scheat
 {
 
 class ScheatLLExec;
@@ -44,7 +44,7 @@ public:
 };
 
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // LLVMCONVERTER_H

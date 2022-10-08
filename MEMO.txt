@@ -6,9 +6,9 @@ namespaceを持たない→それ以前のことはScheatで解決
 namespace-> Scheat
 interface-> ScheatLL
     ポインタをもち、アクセスなどをコントロールする。もちろん参照カウンタももつ。
-    APIからはあたかもクラスを一つ作っているように見せる。→実際には２つ作られている。
+    ScheatLLからはあたかもクラスを一つ作っているように見せる。→実際には２つ作られている。
 property name-> Scheat
-    Scheatはプロパティに名前を持つが、ScheatLLは持たない。全て数字管理。
+    Scheatはプロパティに名前を持つが、ScheatLLは持たない。全て数字管理。->違う
 
 Scheat Release Project
 

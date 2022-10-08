@@ -1,7 +1,7 @@
 
-#include "../API/ScheatLL.hpp"
+#include "../ScheatLL/ScheatLL.hpp"
 
-using namespace scheatll;
+using namespace scheat;
 
 int main(int argc, char const *argv[])
 {

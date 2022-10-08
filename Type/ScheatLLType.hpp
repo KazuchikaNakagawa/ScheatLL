@@ -3,6 +3,8 @@
 
 #include "ScLLDefaultTypes.hpp"
 #include "OperatorImpl.hpp"
+#include "../SourceLocation/SourceLocation.h"
+#include "../Error/ScheatLLError.hpp"
 #include <string>
 #include <map>
 
@@ -11,26 +13,30 @@ namespace llvm
 class Type;
 } // namespace llvm
 
-namespace scheatll
+namespace scheat
 {
 
-class scheatll_type : public OperatorImpl
+class Term;
+class Expr;
+class DeclareFuncExpr;
+
+class scheat_type : public OperatorImpl
 {
 protected:
     DefaultType defType;
-    scheatll_type* pointerOfSelf = nullptr;
+    scheat_type* pointerOfSelf = nullptr;
 public:
-    scheatll_type(DefaultType);
+    scheat_type(DefaultType);
 
-    static scheatll_type* int_type;
-    static scheatll_type* int8_type;
-    static scheatll_type* int64_type;
-    static scheatll_type* int1_type;
-    static scheatll_type* float_type;
-    static scheatll_type* void_type;
+    static scheat_type* int_type;
+    static scheat_type* int8_type;
+    static scheat_type* int64_type;
+    static scheat_type* int1_type;
+    static scheat_type* float_type;
+    static scheat_type* void_type;
 
     // defaultType do not have a manager
-    bool isInManaged() { return defType == NotDefaultType; };
+    bool isInManaged() { return defType == StructType || defType == NotDefaultType; };
 
     // !!
     // before using this function, need to call Exec->ConvertToLLVM
@@ -38,24 +44,41 @@ public:
 
     virtual std::string typeName();
 
-    scheatll_type* getPointerTo();
+    virtual Term* SizeOf();
+
+    virtual Term* DefaultValue();
+
+    scheat_type* getPointerTo();
 
     // TODO: define a new error.
-    virtual scheatll_type* getElementType() { return nullptr; };
+    virtual scheat_type* getElementType() { return nullptr; };
 
     bool isPointerType() { return defType == Pointer; };
 
     bool isFunctionType() { return defType == FunctionType; };
 
-    virtual scheatll_type* getReturnType() { throw std::runtime_error("type has no return type"); return nullptr; };
+    virtual scheat_type* getReturnType() { throw std::runtime_error("type has no return type"); return nullptr; };
 
-    std::map<std::string, scheatll_type*> funcTypeTable; 
+    std::map<std::string, scheat_type*> funcTypeTable; 
 
-    ~scheatll_type();
+    virtual Term* Access(Expr*, std::string, scheat::SourceLocation);
+    virtual Term* Access(Expr*, std::string, std::vector<scheat_type*>, scheat::SourceLocation);
+
+    virtual DeclareFuncExpr *getInitializer() {
+        throw scheat_unavailable_feature_error();
+        return nullptr;
+    };
+    virtual DeclareFuncExpr *getDeinitializer()
+    {
+        throw scheat_unavailable_feature_error();
+        return nullptr;
+    };
+
+    ~scheat_type();
 };
 
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATLLTYPE_HPP

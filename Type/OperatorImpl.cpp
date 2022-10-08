@@ -1,5 +1,5 @@
 #include "OperatorImpl.hpp"
-using namespace scheatll;
+using namespace scheat;
 
 
 OperatorImpl::OperatorImpl(/* args */)

@@ -2,7 +2,7 @@
 #include "../Exec/ScheatLLExec.hpp"
 #include "../Global/Globals.hpp"
 
-using namespace scheatll;
+using namespace scheat;
 
 LLVMConverter::LLVMConverter(ScheatLLExec *exec)
 : _Context(), _Builder(_Context)

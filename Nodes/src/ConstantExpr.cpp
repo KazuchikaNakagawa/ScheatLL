@@ -5,7 +5,7 @@
 #include "../../Type/ScLLType.hpp"
 #include <iostream>
 
-using namespace scheatll;
+using namespace scheat;
 
 ConstantInt32Expr::ConstantInt32Expr(int i, scheat::SourceLocation l)
 : Term(l)
@@ -25,9 +25,9 @@ llvm::Value *ConstantInt32Expr::LLVMConvert() {
     return ScheatllLLVMConverter->Builder().getInt32(data);
 }
 
-scheatll_type* ConstantInt32Expr::Type()
+scheat_type* ConstantInt32Expr::Type()
 {
-    return scheatll::Type(Int32);
+    return scheat::Type(Int32);
 }
 
 
@@ -52,9 +52,9 @@ llvm::Value *ConstantDoubleExpr::LLVMConvert() {
     );
 }
 
-scheatll_type* ConstantDoubleExpr::Type()
+scheat_type* ConstantDoubleExpr::Type()
 {
-    return scheatll::Type(Double);
+    return scheat::Type(Double);
 }
 
 ConstantRawStringExpr::ConstantRawStringExpr(const char *buf, scheat::SourceLocation l)
@@ -76,9 +76,9 @@ llvm::Value *ConstantRawStringExpr::LLVMConvert()
     return ScheatllLLVMConverter->Builder().CreateGlobalStringPtr(str);
 }
 
-scheatll_type* ConstantRawStringExpr::Type()
+scheat_type* ConstantRawStringExpr::Type()
 {
-    return (PointerType(scheatll::Type(Int8)));
+    return (PointerType(scheat::Type(Int8)));
 }
 
 ConstantBoolExpr::ConstantBoolExpr(bool b, scheat::SourceLocation l)
@@ -96,12 +96,36 @@ std::string ConstantBoolExpr::Decode()
     return (data ? "true":"false");
 }
 
-scheatll_type* ConstantBoolExpr::Type()
+scheat_type* ConstantBoolExpr::Type()
 {
-    return scheatll::Type(Int1);
+    return scheat::Type(Int1);
 }
 
 llvm::Value* ConstantBoolExpr::LLVMConvert()
 {
     return ScheatllLLVMConverter->Builder().getInt1(data);
 }
+
+
+ConstantExprNil::ConstantExprNil(scheat_type* tp, scheat::SourceLocation l)
+:Term(l)
+{
+    type = tp;
+}
+
+llvm::Value *ConstantExprNil::LLVMConvert()
+{
+    return llvm::ConstantPointerNull::get(type->LLVMType()->getPointerTo());
+}
+
+ConstantExprNil::~ConstantExprNil()
+{
+}
+
+scheat_type* ConstantExprNil::Type() {
+    return type->getPointerTo();
+};
+
+std::string ConstantExprNil::Decode() {
+    return type->typeName() + " nil";
+};

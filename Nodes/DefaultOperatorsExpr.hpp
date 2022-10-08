@@ -4,7 +4,7 @@
 #include "BasicNodes.hpp"
 #include "../String/String.h"
 
-namespace scheatll
+namespace scheat
 {
 
 class IntIntInfixOperatorExpr : public Expr
@@ -16,7 +16,7 @@ protected:
     llvm::Value *LLVMConvert() override;
 public:
     IntIntInfixOperatorExpr(Expr *, std::string, Expr *, scheat::SourceLocation);
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     std::string Decode() override;
     ~IntIntInfixOperatorExpr();
 };
@@ -30,7 +30,7 @@ protected:
     llvm::Value *LLVMConvert() override;
 public:
     IntIntInfixPrimaryOperatorExpr(PrimaryExpr *, std::string, PrimaryExpr *, scheat::SourceLocation);
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     std::string Decode() override;
     ~IntIntInfixPrimaryOperatorExpr();
 };
@@ -44,7 +44,7 @@ class DoubleDoubleInfixOperatorExpr : public Expr
     llvm::Value *LLVMConvert() override;
     public:
     DoubleDoubleInfixOperatorExpr(Expr *, std::string, Expr *, scheat::SourceLocation);
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     std::string Decode() override;
     ~DoubleDoubleInfixOperatorExpr();
 };
@@ -58,12 +58,12 @@ class DoubleDoubleInfixPrimaryOperatorExpr : public PrimaryExpr
     llvm::Value *LLVMConvert() override;
     public:
     DoubleDoubleInfixPrimaryOperatorExpr(PrimaryExpr *, std::string, PrimaryExpr *, scheat::SourceLocation);
-    scheatll_type* Type() override;
+    scheat_type* Type() override;
     std::string Decode() override;
     ~DoubleDoubleInfixPrimaryOperatorExpr();
 };
 
-} // namespace scheatll
+} // namespace scheat
 
 
 #endif // SCHEATDEFAULTTYPEOPERATORSEXPR_H
